@@ -244,51 +244,66 @@ namespace PvzLauncherRemake
                             content = $"{content}{contentL}\n";
                         }
 
-                        await DialogManager.ShowDialogAsync(new ContentDialog
-                        {
-                            Title = notice.Title,
-                            Content = content,
-                            PrimaryButtonText = notice.PrimaryButton,
-                            SecondaryButtonText = notice.SecondaryButton,
-                            CloseButtonText = "关闭",
-                            DefaultButton = ContentDialogButton.Primary
-                        }, (() =>
-                        {
-                            foreach (var action in notice.PrimaryActions)
+                        var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
+                        if (!AppGlobals.Config.LauncherConfig.HiddenNotices.Contains(notice.Title))
+                            await DialogManager.ShowDialogAsync(new ContentDialog
                             {
-                                switch (action.Type)
+                                Title = notice.Title,
+                                Content = new StackPanel
                                 {
-                                    case "to-url":
-                                        Process.Start(new ProcessStartInfo
-                                        {
-                                            FileName = action.Url,
-                                            UseShellExecute = true
-                                        });
-                                        break;
-                                    case "to-page":
-                                        NavigationController.Navigate(this, action.Url!);
-                                        break;
+                                    Children =
+                                {
+                                    new TextBlock{Text = content},
+                                    chkBox
                                 }
-                            }
-                        }), (() =>
-                        {
-                            foreach (var action in notice.SecondaryActions)
+                                },
+                                PrimaryButtonText = notice.PrimaryButton,
+                                SecondaryButtonText = notice.SecondaryButton,
+                                CloseButtonText = "关闭",
+                                DefaultButton = ContentDialogButton.Primary
+                            }, (() =>
                             {
-                                switch (action.Type)
+                                foreach (var action in notice.PrimaryActions)
                                 {
-                                    case "to-url":
-                                        Process.Start(new ProcessStartInfo
-                                        {
-                                            FileName = action.Url,
-                                            UseShellExecute = true
-                                        });
-                                        break;
-                                    case "to-page":
-                                        NavigationController.Navigate(this, action.Url!);
-                                        break;
+                                    switch (action.Type)
+                                    {
+                                        case "to-url":
+                                            Process.Start(new ProcessStartInfo
+                                            {
+                                                FileName = action.Url,
+                                                UseShellExecute = true
+                                            });
+                                            break;
+                                        case "to-page":
+                                            NavigationController.Navigate(this, action.Url!);
+                                            break;
+                                    }
                                 }
-                            }
-                        }));
+                            }), (() =>
+                            {
+                                foreach (var action in notice.SecondaryActions)
+                                {
+                                    switch (action.Type)
+                                    {
+                                        case "to-url":
+                                            Process.Start(new ProcessStartInfo
+                                            {
+                                                FileName = action.Url,
+                                                UseShellExecute = true
+                                            });
+                                            break;
+                                        case "to-page":
+                                            NavigationController.Navigate(this, action.Url!);
+                                            break;
+                                    }
+                                }
+                            }));
+
+
+                        if (chkBox.IsChecked==true)
+                            AppGlobals.Config.LauncherConfig.HiddenNotices.Add(notice.Title);
+
+                        ConfigManager.SaveConfig();
                     }
                 }
 

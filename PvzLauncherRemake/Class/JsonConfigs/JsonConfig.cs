@@ -74,6 +74,9 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("download_tip")]
             public DownloadTip DownloadTip { get; set; } = new DownloadTip();
+
+            [JsonProperty("hidden_notices")]
+            public List<string> HiddenNotices { get; set; } = new List<string>();
         }
 
         public class SaveConfig
