@@ -329,13 +329,13 @@ namespace PvzLauncherRemake.Pages
                         }
                     }));
 
-                    //启动提示
+                    /*//启动提示
                     notifi.Show(new NotificationContent
                     {
                         Title = "提示",
                         Message = $"{AppGlobals.Config.CurrentGame} 启动成功!",
                         Type = NotificationType.Success
-                    });
+                    });*/
                 }
                 //运行就结束
                 else if (GameManager.IsGameRuning == true)
@@ -345,12 +345,12 @@ namespace PvzLauncherRemake.Pages
 
                     await GameManager.KillGame((() =>
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        /*new NotificationManager().Show(new NotificationContent
                         {
                             Title = "结束游戏",
                             Message = "成功结束游戏",
                             Type = NotificationType.Success
-                        });
+                        });*/
                     }), (() =>
                     {
                         new NotificationManager().Show(new NotificationContent
