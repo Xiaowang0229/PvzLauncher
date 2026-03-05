@@ -87,6 +87,9 @@
                 <ui:HyperlinkButton NavigateUri="https://inkscape.org" Content="Inkscape - 矢量图绘制软件"  HorizontalAlignment="Center"/>
                 <ui:HyperlinkButton NavigateUri="https://www.getpaint.net/" Content="Paint.NET - 位图绘制软件"  HorizontalAlignment="Center"/>
 
+                <!--赞助者-->
+                <TextBlock Text="{lex:Loc SponsorList}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
+                <StackPanel x:Name="stackpanel_SponsorList" HorizontalAlignment="Center"/>
             </StackPanel>
         </ctrl:UserScrollViewer>
 

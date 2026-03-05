@@ -136,4 +136,7 @@
   <data name="Sponsor" xml:space="preserve">
     <value>sponsor</value>
   </data>
+  <data name="SponsorList" xml:space="preserve">
+    <value>All sponsors since the publish of PvzLauncher</value>
+  </data>
 </root>

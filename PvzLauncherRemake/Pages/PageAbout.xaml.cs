@@ -1,4 +1,5 @@
-﻿using ModernWpf.Controls;
+﻿using HuaZi.Library.Json;
+using ModernWpf.Controls;
 using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Controls;
@@ -7,6 +8,7 @@ using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,7 +44,44 @@ namespace PvzLauncherRemake.Pages
             InitializeComponent();
 
             textBlock_Version.Text = $"{AppGlobals.Version}{(AppGlobals.Arguments.isCIBuild ? " - CI" : AppGlobals.Arguments.isDebugBuild ? " - Debug" : null)}";
+
+
+
+            //获取赞助名单
+            GetSponsorList();
         }
+
+        private async void GetSponsorList()
+        {
+            if (AppGlobals.Config.LauncherConfig.OfflineMode)
+            {
+                stackpanel_SponsorList.Children.Clear();
+                stackpanel_SponsorList.Children.Add(new TextBlock
+                {
+                    Text = "离线模式已启用，无法获取赞助者列表",
+                    Margin = new Thickness(0, 0, 0, 5)
+                });
+                return;
+            }
+
+
+            string sponsorIndexUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main/sponsors/index.json";
+            string[] sponsorList;
+            using (var client = new HttpClient())
+                sponsorList = Json.ReadJson<string[]>(await client.GetStringAsync(sponsorIndexUrl));
+
+            stackpanel_SponsorList.Children.Clear();
+            foreach (var sponsor in sponsorList)
+            {
+                var tb = new TextBlock
+                {
+                    Text = sponsor,
+                    Margin = new Thickness(0, 0, 0, 5)
+                };
+                stackpanel_SponsorList.Children.Add(tb);
+            }
+        }
+
 
         public void GoToUrl(object sender, RoutedEventArgs e)
         {

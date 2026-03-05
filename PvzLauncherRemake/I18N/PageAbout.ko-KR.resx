@@ -156,4 +156,7 @@
   <data name="Sponsor" xml:space="preserve">
     <value>스폰서</value>
   </data>
+  <data name="SponsorList" xml:space="preserve">
+    <value>PvzLauncher 출시 이후 모든 스폰서</value>
+  </data>
 </root>

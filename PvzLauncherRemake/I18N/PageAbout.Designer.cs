@@ -176,5 +176,14 @@ namespace PvzLauncherRemake.I18N {
                 return ResourceManager.GetString("Sponsor", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 自PvzLauncher发布以来的所有赞助者 (按赞助时间排序) 的本地化字符串。
+        /// </summary>
+        public static string SponsorList {
+            get {
+                return ResourceManager.GetString("SponsorList", resourceCulture);
+            }
+        }
     }
 }

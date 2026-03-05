@@ -156,4 +156,7 @@
   <data name="Sponsor" xml:space="preserve">
     <value>贊助</value>
   </data>
+  <data name="SponsorList" xml:space="preserve">
+    <value>自PvzLauncher發布以來的所有贊助者</value>
+  </data>
 </root>
