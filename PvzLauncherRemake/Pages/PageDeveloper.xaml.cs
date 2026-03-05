@@ -1,4 +1,5 @@
 ﻿using ModernWpf.Controls;
+using Newtonsoft.Json;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Utils.UI;
 using System.Reflection;
@@ -26,19 +27,29 @@ namespace PvzLauncherRemake.Pages
 
                 // =====
 
-                string text = "";
+                string varText = "";
+
                 Type type = typeof(AppGlobals);
 
-                FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+                FieldInfo[] staticFields = type.GetFields(
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Static |
+                    BindingFlags.DeclaredOnly
+                );
 
-                foreach (FieldInfo field in fields)
+                foreach (FieldInfo field in staticFields)
                 {
-                    string fieldName = field.Name;
-                    object? value = field.GetValue(null);
-                    text = $"{text}{fieldName} = {value}\n";
+                    string name = field.Name;
+
+                    var value = JsonConvert.SerializeObject(field.GetValue(null), Formatting.Indented);
+
+                    string typeName = field.FieldType.Name;
+
+                    varText = $"{varText}{name}({typeName}): {value}\n\n";
                 }
 
-                textBlock_varInfo.Text = text;
+                textBlock_Variables.Text = varText;
             }
         }
 
