@@ -23,7 +23,8 @@ namespace PvzLauncherRemake
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += UnobservedTaskExceptionHandler;
 
-
+            if (DateTimeOffset.Now.Month == 1 && DateTimeOffset.Now.Day == 1)
+                ThemeManager.Current.AccentColor = Color.FromRgb(255, 0, 0);
 
             //初始化配置文件
             if (!File.Exists(System.IO.Path.Combine(AppGlobals.ExecuteDirectory, "config.json")))
