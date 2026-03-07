@@ -53,17 +53,17 @@
         <!--动画-->
         <Grid x:Name="grid_Animation" IsHitTestVisible="False" Visibility="Hidden">
             <Rectangle x:Name="rect_ani_back" Fill="#FF0064FF" Opacity="0.2"/>
-            <Ellipse x:Name="elli_ani_1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="400" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.3" Stroke="#FF0096FF" StrokeThickness="5">
+            <Ellipse x:Name="elli_ani_1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="400" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.3" >
                 <Ellipse.RenderTransform>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
                 </Ellipse.RenderTransform>
             </Ellipse>
-            <Ellipse x:Name="elli_ani_2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Height="350" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.5" Stroke="#FF0096FF" StrokeThickness="5">
+            <Ellipse x:Name="elli_ani_2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Height="350" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.3" >
                 <Ellipse.RenderTransform>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
                 </Ellipse.RenderTransform>
             </Ellipse>
-            <Ellipse x:Name="elli_ani_3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Height="250" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.5" Stroke="#FF0096FF" StrokeThickness="5">
+            <Ellipse x:Name="elli_ani_3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Height="250" RenderTransformOrigin="0.5,0.5" Fill="#FF0064FF" Opacity="0.3" >
                 <Ellipse.RenderTransform>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
                 </Ellipse.RenderTransform>
