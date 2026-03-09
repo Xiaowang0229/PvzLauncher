@@ -19,14 +19,14 @@
         <Grid>
             <!--上栏-->
             <Border BorderThickness="1.5" CornerRadius="5" VerticalAlignment="Top" Margin="5" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}">
-                               
+
                 <Grid Margin="10" VerticalAlignment="Top" >
                     <TextBlock x:Name="textBlock_ProgressAverage" Text="{lex:Loc Total_Progress}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,10"/>
                     <TextBlock x:Name="textBlock_SpeedSum" Text="{lex:Loc Total_Speed}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,10"/>
                     <ProgressBar x:Name="progressBar_Average" Background="#19000000" VerticalAlignment="Bottom"/>
                 </Grid>
             </Border>
-            
+
             <!--任务列表-->
             <controls:UserScrollViewer Margin="0,60,0,0">
                 <StackPanel x:Name="stackPanel_Tasks" Background="#00000000"/>
@@ -34,6 +34,14 @@
         </Grid>
 
         <!--空提示-->
-        <TextBlock x:Name="textBlock_None" Text="{lex:Loc NullTip}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25" Visibility="Hidden"/>
+        <StackPanel x:Name="stackPanel_None" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+            <TextBlock Text="{lex:Loc NullTip}" FontWeight="Bold" FontSize="25"/>
+            <Button x:Name="button_Download" Style="{DynamicResource AccentButtonStyle}" HorizontalAlignment="Center" Margin="0,10,0,0" Click="button_Download_Click">
+                <StackPanel Orientation="Horizontal">
+                    <ui:PathIcon Width="12" Height="12" Margin="0,0,5,0" Data="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/>
+                    <TextBlock Text="{lex:Loc GotoDownload}"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
     </Grid>
 </ui:Page>

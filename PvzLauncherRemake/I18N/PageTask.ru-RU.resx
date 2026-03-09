@@ -126,4 +126,7 @@
   <data name="NullTip" xml:space="preserve">
     <value>Здесь вроде ничего нет, зайдите на страницу загрузки и посмотрите!</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>Перейти на страницу загрузки</value>
+  </data>
 </root>

@@ -17,9 +17,15 @@ namespace PvzLauncherRemake.Pages
         private void ShowNoneTip()
         {
             if (TaskManager.DownloadTaskList.Count > 0)
-                textBlock_None.Visibility = Visibility.Hidden;
+            {
+                stackPanel_None.Visibility = Visibility.Hidden;
+                stackPanel_None.IsEnabled = false;
+            }
             else
-                textBlock_None.Visibility = Visibility.Visible;
+            {
+                stackPanel_None.Visibility = Visibility.Visible;
+                stackPanel_None.IsEnabled = true;
+            }
         }
 
         #region Init
@@ -149,5 +155,7 @@ namespace PvzLauncherRemake.Pages
                 }
             });
         }
+
+        private void button_Download_Click(object sender, RoutedEventArgs e) => NavigationController.Navigate(this, "Download");
     }
 }

@@ -106,4 +106,7 @@
   <data name="NullTip" xml:space="preserve">
     <value>这里似乎什么都没有，去下载页看看吧!</value>
   </data>
+  <data name="GotoDownload" xml:space="preserve">
+    <value>前往下载页</value>
+  </data>
 </root>

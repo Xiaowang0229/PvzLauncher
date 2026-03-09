@@ -61,6 +61,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 前往下载页 的本地化字符串。
+        /// </summary>
+        public static string GotoDownload {
+            get {
+                return ResourceManager.GetString("GotoDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 这里似乎什么都没有，去下载页看看吧! 的本地化字符串。
         /// </summary>
         public static string NullTip {
