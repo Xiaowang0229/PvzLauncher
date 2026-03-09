@@ -91,7 +91,9 @@ namespace PvzLauncherRemake.Pages
 
 
                 //简介
-                textBlock_Description.Text = Info.Description;
+                textBlock_Description.Text = "";
+                foreach (var line in Info.Descriptions)
+                    textBlock_Description.Text = $"{textBlock_Description.Text}{line}\n";
 
                 //信息
                 textBlock_Information.Inlines.Clear();

@@ -15,9 +15,9 @@
       lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
       lex:ResxLocalizationProvider.DefaultDictionary="I18N.PageDownloadConfirm">
 
-    <StackPanel Margin="10" >
+    <Grid>
         <!--游戏卡片-->
-        <Grid Margin="0,0,0,10">
+        <Grid VerticalAlignment="Top" Margin="10">
             <ctrl:UserCard x:Name="userCard" IsReadOnly="True"/>
             <!--下载按钮-->
             <Button x:Name="button_Download" MinWidth="100" Style="{DynamicResource AccentButtonStyle}" HorizontalAlignment="Right" Margin="0,0,10,0" Click="button_Download_Click">
@@ -28,21 +28,25 @@
             </Button>
         </Grid>
 
-        <!--简介-->
-        <StackPanel Margin="0,0,0,10">
-            <!--简介-->
-            <TextBlock Text="{lex:Loc Description}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
-            <TextBlock x:Name="textBlock_Description" Margin="0,0,0,10"/>
-            <TextBlock x:Name="textBlock_Information" Margin="0,0,0,10"/>
+        <ctrl:UserScrollViewer Margin="0,70,0,0">
+            <StackPanel Margin="10" >
+                <!--简介-->
+                <StackPanel Margin="0,0,0,10">
+                    <!--简介-->
+                    <TextBlock Text="{lex:Loc Description}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="textBlock_Description" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="textBlock_Information" Margin="0,0,0,10"/>
 
-            <!--屏幕截图-->
-            <TextBlock Text="{lex:Loc ScreenShots}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
-            <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <StackPanel x:Name="stackPanel_Screenshot" Orientation="Horizontal">
+                    <!--屏幕截图-->
+                    <TextBlock Text="{lex:Loc ScreenShots}" FontWeight="Bold" FontSize="20" Margin="0,0,0,5"/>
+                    <ctrl:UserScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="stackPanel_Screenshot" Orientation="Horizontal">
 
+                        </StackPanel>
+                    </ctrl:UserScrollViewer>
                 </StackPanel>
-            </ctrl:UserScrollViewer>
-        </StackPanel>
 
-    </StackPanel>
+            </StackPanel>
+        </ctrl:UserScrollViewer>
+    </Grid>
 </ui:Page>
