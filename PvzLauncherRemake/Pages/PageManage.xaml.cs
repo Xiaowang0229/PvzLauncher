@@ -99,7 +99,7 @@ namespace PvzLauncherRemake.Pages
                             DefaultButton = ContentDialogButton.Primary
                         }, (() =>
                         {
-                            NavigationController.Navigate(this, "Download");
+                            NavigationController.Navigate("Download");
                         }), (() =>
                         {
                             button_ImportGame_Click(button_ImportGame, null!);
@@ -146,7 +146,7 @@ namespace PvzLauncherRemake.Pages
                             DefaultButton = ContentDialogButton.Primary
                         }, (() =>
                         {
-                            NavigationController.Navigate(this, "Download");
+                            NavigationController.Navigate("Download");
                         }));
                 }
 

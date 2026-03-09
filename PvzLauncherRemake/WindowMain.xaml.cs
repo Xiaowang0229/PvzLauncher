@@ -275,7 +275,7 @@ namespace PvzLauncherRemake
                                             });
                                             break;
                                         case "to-page":
-                                            NavigationController.Navigate(this, action.Url!);
+                                            NavigationController.Navigate(action.Url!);
                                             break;
                                     }
                                 }
@@ -293,7 +293,7 @@ namespace PvzLauncherRemake
                                             });
                                             break;
                                         case "to-page":
-                                            NavigationController.Navigate(this, action.Url!);
+                                            NavigationController.Navigate(action.Url!);
                                             break;
                                     }
                                 }

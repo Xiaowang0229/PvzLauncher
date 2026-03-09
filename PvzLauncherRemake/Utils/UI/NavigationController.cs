@@ -6,13 +6,13 @@ namespace PvzLauncherRemake.Utils.UI
 {
     public static class NavigationController
     {
-        public static void Navigate(DependencyObject obj, string target)
+        public static void Navigate(string target)
         {
             if (string.IsNullOrWhiteSpace(target)) return;
 
             try
             {
-                if (Window.GetWindow(obj) is not WindowMain window) return;
+                if (Application.Current.MainWindow is not WindowMain window) return;
                 if (window.FindName("navView") is not NavigationView navView) return;
 
                 NavigationViewItem? targetItem = null;
