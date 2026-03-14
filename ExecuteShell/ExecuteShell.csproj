@@ -4,15 +4,15 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Assets\Icons\App\Icon.ico</ApplicationIcon>
     <AssemblyName>PvzLauncher</AssemblyName>
-    <ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
-    <Configurations>Debug;Release;CI</Configurations>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Icon.ico" />
+    <Content Include="Assets\Icons\App\Icon.ico" />
   </ItemGroup>
 
 </Project>
