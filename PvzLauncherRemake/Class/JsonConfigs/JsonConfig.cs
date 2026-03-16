@@ -12,6 +12,21 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("current_trainer")]
             public string CurrentTrainer { get; set; } = null!;
 
+            [JsonProperty("eula")]
+            public bool Eula { get; set; } = false;
+
+            [JsonProperty("window_size")]
+            public WindowSize WindowSize { get; set; } = new WindowSize();
+
+            [JsonProperty("settings")]
+            public Settings Settings { get; set; } = new Settings();
+
+            [JsonProperty("record")]
+            public Record Record { get; set; } = new Record();
+        }
+
+        public class Settings
+        {
             [JsonProperty("launcher_config")]
             public LauncherConfig LauncherConfig { get; set; } = new LauncherConfig();
 
@@ -20,19 +35,10 @@ namespace PvzLauncherRemake.Class.JsonConfigs
 
             [JsonProperty("game_config")]
             public GameConfig GameConfig { get; set; } = new GameConfig();
-
-            [JsonProperty("record")]
-            public Record Record { get; set; } = new Record();
         }
 
         public class LauncherConfig
         {
-            [JsonProperty("eula")]
-            public bool Eula { get; set; } = false;
-
-            [JsonProperty("window_size")]
-            public WindowSize WindowSize { get; set; } = new WindowSize();
-
             [JsonProperty("launched_operate")]
             public string LaunchedOperate { get; set; } = "None";
 
@@ -96,7 +102,6 @@ namespace PvzLauncherRemake.Class.JsonConfigs
             [JsonProperty("height")]
             public double Height { get; set; } = 600;
         }
-
 
         public class GameConfig
         {

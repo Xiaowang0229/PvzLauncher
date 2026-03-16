@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             logger.Info($"[更新器] 开始检测更新");
 
-            if (AppGlobals.Config.LauncherConfig.OfflineMode)
+            if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
             {
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -63,8 +63,8 @@ namespace PvzLauncherRemake.Utils.Services
             UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(indexString);
 
             //判断更新通道
-            logger.Info($"[更新器] 当前更新通道: {AppGlobals.Config.LauncherConfig.UpdateChannel}");
-            switch (AppGlobals.Config.LauncherConfig.UpdateChannel)
+            logger.Info($"[更新器] 当前更新通道: {AppGlobals.Config.Settings.LauncherConfig.UpdateChannel}");
+            switch (AppGlobals.Config.Settings.LauncherConfig.UpdateChannel)
             {
                 case "Stable":
                     LatestVersion = UpdateIndex.Stable.LatestVersion;
@@ -82,7 +82,7 @@ namespace PvzLauncherRemake.Utils.Services
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
                         Title = "更新终止",
-                        Content = $"更新通道 \"{AppGlobals.Config.LauncherConfig.UpdateChannel}\" 无效！请重新选择有效的更新通道",
+                        Content = $"更新通道 \"{AppGlobals.Config.Settings.LauncherConfig.UpdateChannel}\" 无效！请重新选择有效的更新通道",
                         PrimaryButtonText = "确定",
                         DefaultButton = ContentDialogButton.Primary
                     });

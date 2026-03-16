@@ -53,7 +53,7 @@ namespace PvzLauncherRemake.Pages
 
         private async void GetSponsorList()
         {
-            if (AppGlobals.Config.LauncherConfig.OfflineMode)
+            if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
             {
                 stackpanel_SponsorList.Children.Clear();
                 stackpanel_SponsorList.Children.Add(new TextBlock

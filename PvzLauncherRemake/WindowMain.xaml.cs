@@ -34,10 +34,10 @@ namespace PvzLauncherRemake
             try
             {
                 //应用配置
-                this.Title = AppGlobals.Config.LauncherConfig.WindowTitle;
-                this.Width = AppGlobals.Config.LauncherConfig.WindowSize.Width;
-                this.Height = AppGlobals.Config.LauncherConfig.WindowSize.Height;
-                switch (AppGlobals.Config.LauncherConfig.NavigationViewAlign)
+                this.Title = AppGlobals.Config.Settings.LauncherConfig.WindowTitle;
+                this.Width = AppGlobals.Config.WindowSize.Width;
+                this.Height = AppGlobals.Config.WindowSize.Height;
+                switch (AppGlobals.Config.Settings.LauncherConfig.NavigationViewAlign)
                 {
                     case "Left":
                         navView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact; break;
@@ -50,7 +50,7 @@ namespace PvzLauncherRemake
                 this.SizeChanged += ((sender, e) =>
                 {
                     logger.Info($"[主窗口] 窗口大小改变:  Width: {this.Width}  Height: {this.Height}");
-                    AppGlobals.Config.LauncherConfig.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
+                    AppGlobals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
                     ConfigManager.SaveConfig();
                 });
 
@@ -75,7 +75,7 @@ namespace PvzLauncherRemake
 
 
                 //禁用联网
-                if (AppGlobals.Config.LauncherConfig.OfflineMode)
+                if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
                 {
                     navViewItem_Download.IsEnabled = false;
                     navViewItem_Task.IsEnabled = false;
@@ -189,7 +189,7 @@ namespace PvzLauncherRemake
 
 
                 //EULA检测
-                if (!AppGlobals.Config.LauncherConfig.Eula)
+                if (!AppGlobals.Config.Eula)
                 {
                     string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Assets", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
@@ -210,7 +210,7 @@ namespace PvzLauncherRemake
                         PrimaryButtonText = "同意",
                         CloseButtonText = "拒绝",
                         DefaultButton = ContentDialogButton.Primary
-                    }, (() => AppGlobals.Config.LauncherConfig.Eula = true), null, (() => Environment.Exit(0)));
+                    }, (() => AppGlobals.Config.Eula = true), null, (() => Environment.Exit(0)));
                     ConfigManager.SaveConfig();
                 }
 
@@ -219,7 +219,7 @@ namespace PvzLauncherRemake
 
 
                 //检查更新
-                if (AppGlobals.Config.LauncherConfig.StartUpCheckUpdate)
+                if (AppGlobals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
                 {
                     logger.Info($"[主窗口] 检测更新");
                     await Updater.CheckUpdate(null!, true);
@@ -230,7 +230,7 @@ namespace PvzLauncherRemake
 
 
                 //公告获取
-                if (AppGlobals.Config.LauncherConfig.NoticeEnabled)
+                if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled)
                 {
                     JsonNoticeIndex.Index noticeIndex;
                     using (var client = new HttpClient())
@@ -245,7 +245,7 @@ namespace PvzLauncherRemake
                         }
 
                         var chkBox = new CheckBox { Content = "不再显示此公告", IsChecked = false };
-                        if (!AppGlobals.Config.LauncherConfig.HiddenNotices.Contains(notice.Title))
+                        if (!AppGlobals.Config.Settings.LauncherConfig.HiddenNotices.Contains(notice.Title))
                             await DialogManager.ShowDialogAsync(new ContentDialog
                             {
                                 Title = notice.Title,
@@ -301,7 +301,7 @@ namespace PvzLauncherRemake
 
 
                         if (chkBox.IsChecked==true)
-                            AppGlobals.Config.LauncherConfig.HiddenNotices.Add(notice.Title);
+                            AppGlobals.Config.Settings.LauncherConfig.HiddenNotices.Add(notice.Title);
 
                         ConfigManager.SaveConfig();
                     }

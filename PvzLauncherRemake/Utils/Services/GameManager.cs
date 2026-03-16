@@ -43,7 +43,7 @@ namespace PvzLauncherRemake.Utils.Services
                     var config = Json.ReadJson<JsonGameInfo.Index>(configPath);
                     if (config != null)
                     {
-                        if (AppGlobals.Config.SaveConfig.EnableSaveIsolation)
+                        if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation)
                         {
                             string saveDir = Path.Combine(dir, ".save");
                             if (!Directory.Exists(saveDir))
@@ -343,8 +343,8 @@ namespace PvzLauncherRemake.Utils.Services
             LatestGameLaunchTime = DateTimeOffset.Now;
 
             //启动后操作
-            logger.Info($"[启动] 启动后操作为: {AppGlobals.Config.LauncherConfig.LaunchedOperate}");
-            switch (AppGlobals.Config.LauncherConfig.LaunchedOperate)
+            logger.Info($"[启动] 启动后操作为: {AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate}");
+            switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "Close":
                     Environment.Exit(0); break;
@@ -381,8 +381,8 @@ namespace PvzLauncherRemake.Utils.Services
 
             IsGameRuning = false;
 
-            logger.Info($"[游戏管理器] 启动后操作为: {AppGlobals.Config.LauncherConfig.LaunchedOperate}");
-            switch (AppGlobals.Config.LauncherConfig.LaunchedOperate)
+            logger.Info($"[游戏管理器] 启动后操作为: {AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate}");
+            switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "HideAndDisplay":
                     Application.Current.MainWindow.Visibility = Visibility.Visible; break;
@@ -529,7 +529,7 @@ namespace PvzLauncherRemake.Utils.Services
             using (RegistryKey key = Registry.CurrentUser.CreateSubKey(registyPath))
             {
                 int? valueData;
-                switch (AppGlobals.Config.GameConfig.FullScreen)
+                switch (AppGlobals.Config.Settings.GameConfig.FullScreen)
                 {
                     case "FullScreen": valueData = 1; break;
                     case "Windowed": valueData = 0; break;
@@ -554,7 +554,7 @@ namespace PvzLauncherRemake.Utils.Services
                 int? gameWindowX;
                 int? gameWindowY;
 
-                switch (AppGlobals.Config.GameConfig.StartUpLocation)
+                switch (AppGlobals.Config.Settings.GameConfig.StartUpLocation)
                 {
                     case "Center":
                         gameWindowX = (int)((SystemParameters.WorkArea.Width / 2) - (800 / 2));

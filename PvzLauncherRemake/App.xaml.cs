@@ -46,7 +46,7 @@ namespace PvzLauncherRemake
             ConfigManager.LoadConfig();
 
             //切换语言
-            LocalizeManager.SwitchLanguage(AppGlobals.Config.LauncherConfig.Language);
+            LocalizeManager.SwitchLanguage(AppGlobals.Config.Settings.LauncherConfig.Language);
 
             //加载列表
             await GameManager.LoadGameListAsync();
@@ -58,7 +58,7 @@ namespace PvzLauncherRemake
             ThemeManager.AddActualThemeChangedHandler(this.MainWindow, OnThemeChanged);
 
             //主题
-            switch (AppGlobals.Config.LauncherConfig.Theme)
+            switch (AppGlobals.Config.Settings.LauncherConfig.Theme)
             {
                 case "Light":
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light; OnThemeChanged(null!, null!); break;

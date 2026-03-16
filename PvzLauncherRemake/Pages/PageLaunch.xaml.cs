@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Pages
 
         private async Task RefreshEchoCave()
         {
-            if (AppGlobals.Config.LauncherConfig.OfflineMode)
+            if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
                 return;
 
             try
@@ -83,8 +83,8 @@ namespace PvzLauncherRemake.Pages
         #region Animation
         public async void StartAnimation()
         {
-            logger.Info($"[启动] 标题语言: {AppGlobals.Config.LauncherConfig.TitleImage}");
-            switch (AppGlobals.Config.LauncherConfig.TitleImage)//切换语言
+            logger.Info($"[启动] 标题语言: {AppGlobals.Config.Settings.LauncherConfig.TitleImage}");
+            switch (AppGlobals.Config.Settings.LauncherConfig.TitleImage)//切换语言
             {
                 case "EN":
                     viewBox_Icon.Child = new TitleImageEn(); break;
@@ -265,11 +265,11 @@ namespace PvzLauncherRemake.Pages
                 StartAnimation();
 
                 //设置背景
-                if (AppGlobals.Config.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.LauncherConfig.Background))
-                    image.Source = new BitmapImage(new Uri(AppGlobals.Config.LauncherConfig.Background));
+                if (AppGlobals.Config.Settings.LauncherConfig.BackgroundMode == "custom" && !string.IsNullOrEmpty(AppGlobals.Config.Settings.LauncherConfig.Background))
+                    image.Source = new BitmapImage(new Uri(AppGlobals.Config.Settings.LauncherConfig.Background));
 
                 //回声洞
-                if (AppGlobals.Config.LauncherConfig.EchoCaveEnabled)
+                if (AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled)
                 {
                     button_EchoCave.Visibility = Visibility.Visible;
                     await RefreshEchoCave();
@@ -310,11 +310,11 @@ namespace PvzLauncherRemake.Pages
 
                     textBlock_LaunchText.Text = LocExtension.GetLocalizedValue<string>("StopGame");
 
-                    if (AppGlobals.Config.LauncherConfig.LaunchAnimationEnabled)
+                    if (AppGlobals.Config.Settings.LauncherConfig.LaunchAnimationEnabled)
                         await StartLaunchAnimation();
 
                     //切换存档
-                    if (AppGlobals.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppGlobals.GameDirectory, AppGlobals.Config.CurrentGame, ".save")))
+                    if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(Path.Combine(AppGlobals.GameDirectory, AppGlobals.Config.CurrentGame, ".save")))
                     {
                         logger.Info($"[启动] 已启用存档隔离，开始切换存档");
                         await GameManager.SwitchGameSave(currentGameInfo);
@@ -334,7 +334,7 @@ namespace PvzLauncherRemake.Pages
                         textBlock_LaunchText.Text = GetLoc("LaunchGame");
 
                         //保存存档
-                        if (AppGlobals.Config.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.SaveDirectory))
+                        if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation && Directory.Exists(AppGlobals.SaveDirectory))
                         {
                             logger.Info($"[启动] 存档隔离已开启，开始保存存档");
                             await GameManager.SaveGameSave(currentGameInfo);
@@ -343,7 +343,7 @@ namespace PvzLauncherRemake.Pages
                     }));
 
                     //启动修改器(如果有)
-                    if (AppGlobals.Config.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer)) 
+                    if (AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer && !string.IsNullOrEmpty(AppGlobals.Config.CurrentTrainer)) 
                     {
                         Process.Start(new ProcessStartInfo
                         {
