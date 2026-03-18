@@ -495,7 +495,7 @@ namespace PvzLauncherRemake.Pages
         {
             StartLoad();
 
-            await GameManager.ImportGameOrTrainer(((progress) => textBlock_Loading.Text = $"正在移动: {progress}"));
+            await GameManager.ImportGameOrTrainer(((progress) => textBlock_Loading.Text = $"正在复制: {progress}"));
 
             NavigationService.Refresh();
 
