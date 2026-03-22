@@ -12,6 +12,7 @@ using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
@@ -46,7 +47,8 @@ namespace PvzLauncherRemake.Pages
                 if (controls is StackPanel sp && sp.Tag != null && sp.Tag.ToString() == "aniSp")
                 {
                     animationStackPanels.Add(sp);
-                    sp.Margin = new Thickness(-500, sp.Margin.Top, sp.Margin.Right, sp.Margin.Bottom);
+
+                    sp.RenderTransform = new TranslateTransform { X = -sp.ActualWidth, Y = 0 };
                     sp.Opacity = 0;
                 }
             }
@@ -60,9 +62,10 @@ namespace PvzLauncherRemake.Pages
 
         public void StackPanelFadeIn(StackPanel sp)
         {
-            sp.BeginAnimation(MarginProperty, new ThicknessAnimation
+            ((TranslateTransform)sp.RenderTransform).BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation
             {
-                To = new Thickness(0, sp.Margin.Top, sp.Margin.Right, sp.Margin.Bottom),
+                From=-sp.ActualWidth,
+                To = 0,
                 Duration = TimeSpan.FromMilliseconds(500),
                 EasingFunction = new PowerEase { Power = 5, EasingMode = EasingMode.EaseOut }
             });
