@@ -35,6 +35,7 @@
     <PackageReference Include="Notifications.Wpf" Version="0.1.1" />
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
     <PackageReference Include="SharpCompress" Version="0.42.1" />
+    <PackageReference Include="WPF-UI" Version="4.2.0" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
   </ItemGroup>
 
