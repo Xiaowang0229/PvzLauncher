@@ -1,6 +1,5 @@
 ﻿using HuaZi.Library.Json;
 using ModernWpf.Controls;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls;
@@ -24,8 +23,6 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageManage : ModernWpf.Controls.Page
     {
-        private NotificationManager notificationManager = new NotificationManager();
-
         #region Loads
         public void StartLoad()
         {
@@ -190,11 +187,11 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                notificationManager.Show(new NotificationContent
+                SnackbarManager.Show(new SnackbarContent
                 {
                     Title = "选择游戏",
-                    Message = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
-                    Type = NotificationType.Information
+                    Content = $"已选择 \"{((UserCard)sender).Title}\" 作为启动游戏",
+                    Type = SnackbarType.Info
                 });
 
                 //更新控件
@@ -224,11 +221,11 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                notificationManager.Show(new NotificationContent
+                SnackbarManager.Show(new SnackbarContent
                 {
                     Title = "选择修改器",
-                    Message = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
-                    Type = NotificationType.Information
+                    Content = $"已选择 \"{((UserCard)sender).Title}\" 作为当前修改器",
+                    Type = SnackbarType.Info
                 });
 
                 //更新控件
@@ -391,11 +388,11 @@ namespace PvzLauncherRemake.Pages
                             AppGlobals.Config.CurrentTrainer = null!;
                         }
                         ConfigManager.SaveConfig();
-                        notificationManager.Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "删除成功",
-                            Message = $"\"{trainerConfig.Name}\" 已从您的修改器库内移除!",
-                            Type = NotificationType.Success
+                            Content = $"\"{trainerConfig.Name}\" 已从您的修改器库内移除!",
+                            Type = SnackbarType.Success
                         });
 
                         this.NavigationService.Refresh();
@@ -429,11 +426,11 @@ namespace PvzLauncherRemake.Pages
                                 trainerConfig.Name = textBox.Text;
                                 Directory.Move(Path.Combine(AppGlobals.TrainerDirectory, lastName), Path.Combine(AppGlobals.TrainerDirectory, trainerConfig.Name));
                                 Json.WriteJson(Path.Combine(AppGlobals.TrainerDirectory, trainerConfig.Name, ".pvzl.json"), trainerConfig);
-                                notificationManager.Show(new NotificationContent
+                                SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "更名成功",
-                                    Message = $"修改器已更名为: {trainerConfig.Name}",
-                                    Type = NotificationType.Success
+                                    Content = $"修改器已更名为: {trainerConfig.Name}",
+                                    Type = SnackbarType.Success
                                 });
 
                                 logger.Info($"[管理: 修改器设置] 更名成功: {trainerConfig.Name}");
@@ -446,22 +443,22 @@ namespace PvzLauncherRemake.Pages
                             else
                             {
                                 logger.Info($"[管理: 修改器设置] {textBox.Text} 在库内已有相同名称，操作取消");
-                                notificationManager.Show(new NotificationContent
+                                SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "更名失败",
-                                    Message = $"库内已有与 \"{textBox.Text}\" 同名修改器！",
-                                    Type = NotificationType.Error
+                                    Content = $"库内已有与 \"{textBox.Text}\" 同名修改器！",
+                                    Type = SnackbarType.Error
                                 });
                             }
                         }
                         else
                         {
                             logger.Info($"[管理: 修改器设置] 用户输入为空，操作取消");
-                            notificationManager.Show(new NotificationContent
+                            SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "更名失败",
-                                Message = "新名称为空",
-                                Type = NotificationType.Error
+                                Content = "新名称为空",
+                                Type = SnackbarType.Error
                             });
                         }
                     }));

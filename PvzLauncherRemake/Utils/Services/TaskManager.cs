@@ -1,10 +1,10 @@
 ﻿using HuaZi.Library.Downloader;
 using HuaZi.Library.Json;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
+using PvzLauncherRemake.Utils.UI;
 using System.IO;
 using static PvzLauncherRemake.Class.AppLogger;
 
@@ -29,11 +29,11 @@ namespace PvzLauncherRemake.Utils.Services
             {
                 if (task.TaskName == taskInfo.TaskName)
                 {
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "无法创建任务",
-                        Message = $"任务列表内已有与 \"{taskInfo.TaskName}\" 同名任务，请等待已有任务完成",
-                        Type = NotificationType.Error
+                        Content = $"任务列表内已有与 \"{taskInfo.TaskName}\" 同名任务，请等待已有任务完成",
+                        Type = SnackbarType.Error
                     });
                     return;
                 }
@@ -47,11 +47,11 @@ namespace PvzLauncherRemake.Utils.Services
                 {
                     if (!s)
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "下载失败",
-                            Message = $"无法下载 {taskInfo.TaskName}\n\n错误信息: {e}",
-                            Type = NotificationType.Error
+                            Content = $"无法下载 {taskInfo.TaskName}\n\n错误信息: {e}",
+                            Type = SnackbarType.Error
                         });
                         DownloadTaskList.Remove(taskInfo);
                         TaskRemoved?.Invoke(taskInfo);
@@ -116,11 +116,11 @@ namespace PvzLauncherRemake.Utils.Services
                     await GameManager.LoadGameListAsync();
                     await GameManager.LoadTrainerListAsync();
 
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "下载完成",
-                        Message = $"成功完成任务 \"{taskInfo.TaskName}\"",
-                        Type = NotificationType.Success
+                        Content = $"成功完成任务 \"{taskInfo.TaskName}\"",
+                        Type = SnackbarType.Success
                     });
                     DownloadTaskList.Remove(taskInfo);
                     TaskRemoved?.Invoke(taskInfo);
@@ -139,11 +139,11 @@ namespace PvzLauncherRemake.Utils.Services
             StartTask(taskInfo);
 
 
-            new NotificationManager().Show(new NotificationContent
+            SnackbarManager.Show(new SnackbarContent
             {
                 Title = "下载已开始",
-                Message = "您的下载任务已被添加进任务列表",
-                Type = NotificationType.Information
+                Content = "您的下载任务已被添加进任务列表",
+                Type = SnackbarType.Info
             });
         }
 

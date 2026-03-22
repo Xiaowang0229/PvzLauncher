@@ -1,6 +1,5 @@
 ﻿using HuaZi.Library.Json;
 using ModernWpf.Controls;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
@@ -25,18 +24,18 @@ namespace PvzLauncherRemake.Pages
     {
         private long _eggCount = 0;
 
-        private static readonly IReadOnlyList<(int clicks, string title, string message, NotificationType type, Action? action)>
+        private static readonly IReadOnlyList<(int clicks, string title, string message, SnackbarType type, Action? action)>
             EasterEggs =
         [
-            (10,  "香蒲", "你真的很无聊...",                               NotificationType.Information, null),
-            (20,  "香蒲", "不是我说，你无聊的话可以去干其他事，能不能不要点我了", NotificationType.Information, null),
-            (40,  "香蒲", "不 要 再 点 我 了 ! ! !",                   NotificationType.Warning,       null),
-            (70,  "香蒲", "你可以去干一些有意义的事情，而不是在这里点一堆矢量路径！！！", NotificationType.Error, null),
-            (100, "香蒲", "好了，到此为止。作者只做了100次点击的判断，后面没有了",     NotificationType.Success,      null),
-            (130, "发生错误", "System.IndexOutOfRangeException: 索引超出了数组的边界。\r\n   在 Program.Main() 位置 C:\\Projects\\ArrayDemo\\Program.cs:第 11 行\r\n   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)\r\n   在 System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr)",NotificationType.Error, null),
-            (150, "香蒲", "看来骗不到你",                               NotificationType.Information, null),
-            (200, "香蒲", "恭喜！200次点击",                           NotificationType.Information, null),
-            (250, "香蒲", "好了，这次是真的没了，最大值就是250了。快走吧。", NotificationType.Information, null)
+            (10,  "香蒲", "你真的很无聊...",                               SnackbarType.Info, null),
+            (20,  "香蒲", "不是我说，你无聊的话可以去干其他事，能不能不要点我了", SnackbarType.Info, null),
+            (40,  "香蒲", "不 要 再 点 我 了 ! ! !",                   SnackbarType.Warn,       null),
+            (70,  "香蒲", "你可以去干一些有意义的事情，而不是在这里点一堆矢量路径！！！", SnackbarType.Error, null),
+            (100, "香蒲", "好了，到此为止。作者只做了100次点击的判断，后面没有了",     SnackbarType.Success,      null),
+            (130, "发生错误", "System.IndexOutOfRangeException: 索引超出了数组的边界。\r\n   在 Program.Main() 位置 C:\\Projects\\ArrayDemo\\Program.cs:第 11 行\r\n   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)\r\n   在 System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr)",SnackbarType.Error, null),
+            (150, "香蒲", "看来骗不到你",                               SnackbarType.Info, null),
+            (200, "香蒲", "恭喜！200次点击",                           SnackbarType.Info, null),
+            (250, "香蒲", "好了，这次是真的没了，最大值就是250了。快走吧。", SnackbarType.Info, null)
         ];
 
         public PageAbout()
@@ -113,10 +112,10 @@ namespace PvzLauncherRemake.Pages
             {
                 if (_eggCount == clicks)
                 {
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = title,
-                        Message = message,
+                        Content = message,
                         Type = type
                     });
                     action?.Invoke();
@@ -133,11 +132,11 @@ namespace PvzLauncherRemake.Pages
 
                 if (Debugger.IsAttached)
                 {
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "开发者控制台",
-                        Message = "检测到调试器附加，自动进入开发者控制台",
-                        Type = NotificationType.Success
+                        Content = "检测到调试器附加，自动进入开发者控制台",
+                        Type = SnackbarType.Success
                     });
                     NavigationService?.Navigate(new PageDeveloper());
                     return;
@@ -170,11 +169,11 @@ namespace PvzLauncherRemake.Pages
                     }
                     else
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "答案错误",
-                            Message = $"您无法进入开发者控制台, \"{textBox.Text}\" 是错误的！",
-                            Type = NotificationType.Error
+                            Content = $"您无法进入开发者控制台, \"{textBox.Text}\" 是错误的！",
+                            Type = SnackbarType.Error
                         });
                     }
                 }));

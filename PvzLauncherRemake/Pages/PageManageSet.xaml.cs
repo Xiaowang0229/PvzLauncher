@@ -1,7 +1,6 @@
 ﻿using HuaZi.Library.Json;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -23,7 +22,6 @@ namespace PvzLauncherRemake.Pages
     public partial class PageManageSet : ModernWpf.Controls.Page
     {
         private JsonGameInfo.Index GameInfo = null!;
-        private NotificationManager notificationManage = new NotificationManager();
 
         #region Load
         public void StartLoad(bool isStart = true)
@@ -174,11 +172,11 @@ namespace PvzLauncherRemake.Pages
 
                             await Task.Run(() => Directory.Delete(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name), true));
 
-                            notificationManage.Show(new NotificationContent
+                            SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "删除成功",
-                                Message = $"\"{GameInfo.GameInfo.Name}\" 已成功从您的游戏库中移除",
-                                Type = NotificationType.Success
+                                Content = $"\"{GameInfo.GameInfo.Name}\" 已成功从您的游戏库中移除",
+                                Type = SnackbarType.Success
                             });
                             //刷新游戏列表
                             await GameManager.LoadGameListAsync();
@@ -271,11 +269,11 @@ namespace PvzLauncherRemake.Pages
                     GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Viewbox)comboBox.SelectedItem).Tag);
                     Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
-                    notificationManage.Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "成功",
-                        Message = "您的版本信息已更改",
-                        Type = NotificationType.Success
+                        Content = "您的版本信息已更改",
+                        Type = SnackbarType.Success
                     });
 
                     this.NavigationService.Refresh();
@@ -332,31 +330,31 @@ namespace PvzLauncherRemake.Pages
                         {
                             GameInfo.GameInfo.ExecuteName = (string)listBox.SelectedItem;
                             Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-                            notificationManage.Show(new NotificationContent
+                            SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "成功",
-                                Message = $"可执行文件已更改为 \"{GameInfo.GameInfo.ExecuteName}\"",
-                                Type = NotificationType.Success
+                                Content = $"可执行文件已更改为 \"{GameInfo.GameInfo.ExecuteName}\"",
+                                Type = SnackbarType.Success
                             });
                         }
                         else
                         {
-                            notificationManage.Show(new NotificationContent
+                            SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "失败",
-                                Message = "您没有选择任何可执行文件，因此操作取消",
-                                Type = NotificationType.Error
+                                Content = "您没有选择任何可执行文件，因此操作取消",
+                                Type = SnackbarType.Error
                             });
                         }
                     }));
                 }
                 else
                 {
-                    notificationManage.Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "您无法更改",
-                        Message = "此游戏目录下仅有一个可执行文件，无法更改",
-                        Type = NotificationType.Error
+                        Content = "此游戏目录下仅有一个可执行文件，无法更改",
+                        Type = SnackbarType.Error
                     });
                 }
 
@@ -389,11 +387,11 @@ namespace PvzLauncherRemake.Pages
                             GameInfo.GameInfo.Name = textBox.Text;
                             Directory.Move(Path.Combine(AppGlobals.GameDirectory, lastName), Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name));
                             Json.WriteJson(Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
-                            notificationManage.Show(new NotificationContent
+                            SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "更名成功",
-                                Message = $"游戏已更名为 \"{GameInfo.GameInfo.Name}\"",
-                                Type = NotificationType.Success
+                                Content = $"游戏已更名为 \"{GameInfo.GameInfo.Name}\"",
+                                Type = SnackbarType.Success
                             });
 
                             if (AppGlobals.Config.CurrentGame == lastName)
@@ -403,21 +401,21 @@ namespace PvzLauncherRemake.Pages
                         }
                         else
                         {
-                            notificationManage.Show(new NotificationContent
+                            SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "更名失败",
-                                Message = $"游戏库下已有与\"{textBox.Text}\"同名游戏！",
-                                Type = NotificationType.Error
+                                Content = $"游戏库下已有与\"{textBox.Text}\"同名游戏！",
+                                Type = SnackbarType.Error
                             });
                         }
                     }
                     else
                     {
-                        notificationManage.Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "更名失败",
-                            Message = "新名称为空",
-                            Type = NotificationType.Error
+                            Content = "新名称为空",
+                            Type = SnackbarType.Error
                         });
                     }
                 }));

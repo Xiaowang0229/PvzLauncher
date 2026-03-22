@@ -2,7 +2,6 @@
 using ModernWpf;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -29,11 +28,11 @@ namespace PvzLauncherRemake.Pages
 
         public void ShowRestartTip()
         {
-            new NotificationManager().Show(new NotificationContent
+            SnackbarManager.Show(new SnackbarContent
             {
                 Title = "提示",
-                Message = "此设置项重启才能生效",
-                Type = NotificationType.Information
+                Content = "此设置项重启才能生效",
+                Type = SnackbarType.Info
             });
         }
 
@@ -557,11 +556,11 @@ namespace PvzLauncherRemake.Pages
 
                     if (!(allTempFiles.Length > 0))
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "清理完成",
-                            Message = "临时文件夹是空的，无需清除",
-                            Type = NotificationType.Success
+                            Content = "临时文件夹是空的，无需清除",
+                            Type = SnackbarType.Success
                         });
                         senderBtn.IsEnabled = true;
                         return;
@@ -579,11 +578,11 @@ namespace PvzLauncherRemake.Pages
 
                     if (!(pvzLauncherFiles.Count > 0))
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "清理完成",
-                            Message = "没有需要清理的缓存文件",
-                            Type = NotificationType.Success
+                            Content = "没有需要清理的缓存文件",
+                            Type = SnackbarType.Success
                         });
                         senderBtn.IsEnabled = true;
                         return;
@@ -618,11 +617,11 @@ namespace PvzLauncherRemake.Pages
                         }
                     });
 
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "清理完成",
-                        Message = $"已清理所有缓存文件，共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB",
-                        Type = NotificationType.Success
+                        Content = $"已清理所有缓存文件，共 {Math.Round(tempFilesSize / (1024 * 1024), 2)}MB",
+                        Type = SnackbarType.Success
                     });
 
                 }
@@ -693,20 +692,20 @@ namespace PvzLauncherRemake.Pages
                                     Directory.Delete(AppGlobals.SaveDirectory, true);
                                 });
                                 EndLoad();
-                                new NotificationManager().Show(new NotificationContent
+                                SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "删除存档",
-                                    Message = "您的存档已经移除",
-                                    Type = NotificationType.Success
+                                    Content = "您的存档已经移除",
+                                    Type = SnackbarType.Success
                                 });
                             }
                             else
                             {
-                                new NotificationManager().Show(new NotificationContent
+                                SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "失败",
-                                    Message = "存档不存在，无法删除",
-                                    Type = NotificationType.Error
+                                    Content = "存档不存在，无法删除",
+                                    Type = SnackbarType.Error
                                 });
                             }
                         }
@@ -860,11 +859,11 @@ namespace PvzLauncherRemake.Pages
                                                 });
                                                 await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.GameDirectory, originGameName, ".save"), Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"));
 
-                                                new NotificationManager().Show(new NotificationContent
+                                                SnackbarManager.Show(new SnackbarContent
                                                 {
                                                     Title = "迁移成功",
-                                                    Message = $"{originGameName} 的存档已迁移至 {targetGameName}",
-                                                    Type = NotificationType.Success
+                                                    Content = $"{originGameName} 的存档已迁移至 {targetGameName}",
+                                                    Type = SnackbarType.Success
                                                 });
 
                                                 EndLoad();
@@ -872,53 +871,53 @@ namespace PvzLauncherRemake.Pages
                                         }
                                         else
                                         {
-                                            new NotificationManager().Show(new NotificationContent
+                                            SnackbarManager.Show(new SnackbarContent
                                             {
                                                 Title = "操作中断",
-                                                Message = "没有选择目标游戏",
-                                                Type = NotificationType.Error
+                                                Content = "没有选择目标游戏",
+                                                Type = SnackbarType.Error
                                             });
                                         }
                                     }));
                                 }
                                 else
                                 {
-                                    new NotificationManager().Show(new NotificationContent
+                                    SnackbarManager.Show(new SnackbarContent
                                     {
                                         Title = "操作中断",
-                                        Message = "原游戏无独立存档，请至少启动一次游戏并创建存档",
-                                        Type = NotificationType.Error
+                                        Content = "原游戏无独立存档，请至少启动一次游戏并创建存档",
+                                        Type = SnackbarType.Error
                                     });
                                 }
                             }
                             else
                             {
-                                new NotificationManager().Show(new NotificationContent
+                                SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "操作中断",
-                                    Message = "没有选择任何游戏",
-                                    Type = NotificationType.Error
+                                    Content = "没有选择任何游戏",
+                                    Type = SnackbarType.Error
                                 });
                             }
                         }));
                     }
                     else
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "无法迁移",
-                            Message = "游戏库内少于两个游戏，无法使用此功能",
-                            Type = NotificationType.Warning
+                            Content = "游戏库内少于两个游戏，无法使用此功能",
+                            Type = SnackbarType.Warn
                         });
                     }
                 }
                 else
                 {
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "提示",
-                        Message = "请先启用存档隔离功能",
-                        Type = NotificationType.Warning
+                        Content = "请先启用存档隔离功能",
+                        Type = SnackbarType.Warn
                     });
                 }
             }

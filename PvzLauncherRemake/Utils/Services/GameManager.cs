@@ -2,7 +2,6 @@
 using HuaZi.Library.Json;
 using Microsoft.Win32;
 using ModernWpf.Controls;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -175,11 +174,11 @@ namespace PvzLauncherRemake.Utils.Services
                 }
                 else if (listBox.Items.Count <= 0)
                 {
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "导入终止",
-                        Message = "您选择的文件夹内没有任何可执行文件，导入被终止",
-                        Type = NotificationType.Error
+                        Content = "您选择的文件夹内没有任何可执行文件，导入被终止",
+                        Type = SnackbarType.Error
                     });
                     return;
                 }
@@ -256,11 +255,11 @@ namespace PvzLauncherRemake.Utils.Services
                     Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
                 }
 
-                new NotificationManager().Show(new NotificationContent
+                SnackbarManager.Show(new SnackbarContent
                 {
                     Title = "导入",
-                    Message = $"导入 \"{Path.GetFileName(savePath)}\" 成功！",
-                    Type = NotificationType.Success
+                    Content = $"导入 \"{Path.GetFileName(savePath)}\" 成功！",
+                    Type = SnackbarType.Success
                 });
 
 
@@ -505,11 +504,11 @@ namespace PvzLauncherRemake.Utils.Services
                 if (!Directory.Exists(Path.Combine(baseDir, textBox.Text)))
                     return Path.Combine(baseDir, textBox.Text);
                 else
-                    new NotificationManager().Show(new NotificationContent
+                    SnackbarManager.Show(new SnackbarContent
                     {
                         Title = "无法解决",
-                        Message = $"库内仍然有与 \"{textBox.Text}\" 同名的文件夹，请继续解决",
-                        Type = NotificationType.Warning
+                        Content = $"库内仍然有与 \"{textBox.Text}\" 同名的文件夹，请继续解决",
+                        Type = SnackbarType.Warn
                     });
             }
         }

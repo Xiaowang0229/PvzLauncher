@@ -1,5 +1,4 @@
 ﻿using HuaZi.Library.Json;
-using Notifications.Wpf;
 using PvzLauncherRemake.Class;
 using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Controls.Icons;
@@ -25,7 +24,6 @@ namespace PvzLauncherRemake.Pages
     {
         private JsonGameInfo.Index currentGameInfo = null!;
         private JsonTrainerInfo.Index currentTrainerInfo = null!;
-        private NotificationManager notifi = new NotificationManager();
 
         private List<string> echoCaveTemp = new List<string>();
 
@@ -324,11 +322,11 @@ namespace PvzLauncherRemake.Pages
                     //启动游戏
                     GameManager.LaunchGame(currentGameInfo, (async () =>
                     {
-                        notifi.Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "提示",
-                            Message = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
-                            Type = NotificationType.Warning
+                            Content = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
+                            Type = SnackbarType.Warn
                         });
 
                         textBlock_LaunchText.Text = GetLoc("LaunchGame");
@@ -357,7 +355,7 @@ namespace PvzLauncherRemake.Pages
                     {
                         Title = "提示",
                         Message = $"{AppGlobals.Config.CurrentGame} 启动成功!",
-                        Type = NotificationType.Success
+                        Type = SnackbarType.Success
                     });*/
                 }
                 //运行就结束
@@ -368,19 +366,19 @@ namespace PvzLauncherRemake.Pages
 
                     await GameManager.KillGame((() =>
                     {
-                        /*new NotificationManager().Show(new NotificationContent
+                        /*SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "结束游戏",
-                            Message = "成功结束游戏",
-                            Type = NotificationType.Success
+                            Content = "成功结束游戏",
+                            Type = SnackbarType.Success
                         });*/
                     }), (() =>
                     {
-                        new NotificationManager().Show(new NotificationContent
+                        SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "结束游戏",
-                            Message = "无法结束游戏，请手动关闭游戏",
-                            Type = NotificationType.Error
+                            Content = "无法结束游戏，请手动关闭游戏",
+                            Type = SnackbarType.Error
                         });
                     }));
 
@@ -405,11 +403,11 @@ namespace PvzLauncherRemake.Pages
                     FileName = System.IO.Path.Combine(AppGlobals.TrainerDirectory, currentTrainerInfo.Name, currentTrainerInfo.ExecuteName),
                     UseShellExecute = true
                 });
-                notifi.Show(new NotificationContent
+                SnackbarManager.Show(new SnackbarContent
                 {
                     Title = "提示",
-                    Message = $"{AppGlobals.Config.CurrentTrainer} 启动成功!",
-                    Type = NotificationType.Success
+                    Content = $"{AppGlobals.Config.CurrentTrainer} 启动成功!",
+                    Type = SnackbarType.Success
                 });
                 logger.Info($"[启动] 修改器启动成功");
             }
