@@ -27,7 +27,7 @@ namespace PvzLauncherRemake.Utils.UI
                     appearance = ControlAppearance.Caution;
                     symbolRegular = SymbolRegular.Warning24;
                     break;
-                case SnackbarType.Errorr:
+                case SnackbarType.Error:
                     appearance = ControlAppearance.Danger;
                     symbolRegular = SymbolRegular.ErrorCircle24;
                     break;
@@ -62,7 +62,7 @@ namespace PvzLauncherRemake.Utils.UI
     {
         Info,
         Warn,
-        Errorr,
+        Error,
         Success
     }
 }
