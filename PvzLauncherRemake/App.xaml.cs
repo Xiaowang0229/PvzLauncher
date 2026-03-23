@@ -116,7 +116,7 @@ namespace PvzLauncherRemake
             };
             this.Resources["BackgroundBrush"] = new SolidColorBrush
             {
-                Color = (Color)ColorConverter.ConvertFromString($"#0C{new string(colorFill, 6)}")
+                Color = (Color)ColorConverter.ConvertFromString($"#02{new string(colorFill, 6)}")
             };
 
         }
