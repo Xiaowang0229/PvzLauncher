@@ -5,43 +5,41 @@ using static PvzLauncherRemake.Class.AppLogger;
 
 namespace PvzLauncherRemake.Utils.UI
 {
+    public enum NavigaionPages
+    {
+        Launch,
+        Manage,
+        Download,
+        Task,
+        Settings,
+        About
+    }
+
     public static class NavigationController
     {
-        public static void Navigate(string target)
+        public static void Navigate(NavigaionPages target)
         {
-            if (string.IsNullOrWhiteSpace(target)) return;
+            if (Application.Current.MainWindow is not WindowMain window)
+                return;
 
-            try
+            var navView = window.navView;
+
+
+            switch (target)
             {
-                if (Application.Current.MainWindow is not WindowMain window) return;
-                if (window.FindName("navView") is not NavigationView navView) return;
+                case NavigaionPages.Launch:
+                    navView.SelectedItem = window.navViewItem_Launch;break;
+                case NavigaionPages.Manage:
+                    navView.SelectedItem = window.navViewItem_Manage; break;
+                case NavigaionPages.Download:
+                    navView.SelectedItem = window.navViewItem_Download; break;
 
-                NavigationViewItem? targetItem = null;
-
-                //用Tag匹配
-                targetItem = navView.MenuItems.OfType<NavigationViewItem>()
-                    .Concat(navView.FooterMenuItems.OfType<NavigationViewItem>())
-                    .FirstOrDefault(item => item.Tag?.ToString() == target)!;
-
-                //兼容
-                if (targetItem == null)
-                {
-                    targetItem = navView.FindName($"navViewItem_{target}") as NavigationViewItem;
-                }
-
-                if (targetItem != null)
-                {
-                    navView.SelectedItem = targetItem;
-                    logger.Info($"[导航控制器] 已导航 → {target} ({targetItem.Content})");
-                }
-                else
-                {
-                    logger.Warn($"[导航控制器] 未找到导航目标：\"{target}\"（Tag 或 x:Name=\"navViewItem_{target}\" 均不存在）");
-                }
-            }
-            catch (System.Exception ex)
-            {
-                logger.Error($"[导航控制器] 导航时发生异常：{ex.Message}");
+                case NavigaionPages.Task:
+                    navView.SelectedItem = window.navViewItem_Task; break;
+                case NavigaionPages.Settings:
+                    navView.SelectedItem = window.navViewItem_Settings; break;
+                case NavigaionPages.About:
+                    navView.SelectedItem = window.navViewItem_About; break;
             }
         }
     }

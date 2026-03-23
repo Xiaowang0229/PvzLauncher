@@ -279,7 +279,10 @@ namespace PvzLauncherRemake.Windows
                                             });
                                             break;
                                         case "to-page":
-                                            NavigationController.Navigate(action.Url!);
+                                            if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
+                                                NavigationController.Navigate(result);
+                                            else
+                                                throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
                                             break;
                                     }
                                 }
@@ -297,7 +300,10 @@ namespace PvzLauncherRemake.Windows
                                             });
                                             break;
                                         case "to-page":
-                                            NavigationController.Navigate(action.Url!);
+                                            if (Enum.TryParse<NavigaionPages>(action.Url, true, out NavigaionPages result))
+                                                NavigationController.Navigate(result);
+                                            else
+                                                throw new Exception($"目标页: \"{action.Url}\" 不存在，这是开发者编写失误引起的，请联系开发者");
                                             break;
                                     }
                                 }

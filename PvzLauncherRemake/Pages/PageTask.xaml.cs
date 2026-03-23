@@ -156,6 +156,6 @@ namespace PvzLauncherRemake.Pages
             });
         }
 
-        private void button_Download_Click(object sender, RoutedEventArgs e) => NavigationController.Navigate("Download");
+        private void button_Download_Click(object sender, RoutedEventArgs e) => NavigationController.Navigate(NavigaionPages.Download);
     }
 }
