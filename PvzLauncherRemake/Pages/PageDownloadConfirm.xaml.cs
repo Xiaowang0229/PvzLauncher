@@ -1,5 +1,6 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Class;
+using PvzLauncherRemake.Class.JsonConfigs;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
@@ -19,7 +20,7 @@ namespace PvzLauncherRemake.Pages
     /// </summary>
     public partial class PageDownloadConfirm : ModernWpf.Controls.Page
     {
-        public dynamic Info { get; set; }
+        public JsonDownloadIndex.GameInfo Info { get; set; }
         public string BaseDirectory { get; set; }
         public bool IsTrainer { get; set; }
 
@@ -170,7 +171,7 @@ namespace PvzLauncherRemake.Pages
             if (!confirm) return;*/
 
             //处理同名
-            string savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
+            string? savePath = await GameManager.ResolveSameName(Info.Name, BaseDirectory);
 
             if (string.IsNullOrEmpty(savePath))
                 return;
