@@ -40,10 +40,10 @@
 
   <ItemGroup>
     <Reference Include="ModernWpf">
-      <HintPath>Lib\ModernWpf.dll</HintPath>
+      <HintPath>Library\ModernWpf.dll</HintPath>
     </Reference>
     <Reference Include="ModernWpf.Controls">
-      <HintPath>Lib\ModernWpf.Controls.dll</HintPath>
+      <HintPath>Library\ModernWpf.Controls.dll</HintPath>
     </Reference>
   </ItemGroup>
 
