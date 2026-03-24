@@ -28,7 +28,7 @@ namespace PvzLauncherRemake.Controls
             textBlock_Title.Text = Title;
 
             textBlock_Progress_Download.Text = Progress == 100 ? "下载完成" : $"下载中... {Math.Round(Progress, 2)}%";
-            textBlock_Speed_Download.Text = $"{Math.Round(Speed, 2)}Mb/s";
+            textBlock_Speed_Download.Text = $"{Math.Round(Speed, 2)}MB/s";
             progressBar_Download.Value = Progress;
 
             textBlock_Progress_Compress.Text = ProgressCompress == 100 ? "解压完毕" : ProgressCompress == 0 ? "等待下载完毕" : $"解压中... {Math.Round(ProgressCompress, 2)}%";

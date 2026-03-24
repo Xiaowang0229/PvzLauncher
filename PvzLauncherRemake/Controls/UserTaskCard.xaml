@@ -32,7 +32,7 @@
                     <ui:ProgressRing x:Name="progressRing_Download" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <ProgressBar x:Name="progressBar_Download" Value="50" Margin="30,0,0,0" Background="#19000000" VerticalAlignment="Bottom"/>
                     <TextBlock x:Name="textBlock_Progress_Download" Text="100%" Margin="30,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                    <TextBlock x:Name="textBlock_Speed_Download" Text="100Mb/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,14"/>
+                    <TextBlock x:Name="textBlock_Speed_Download" Text="100MB/s" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,14"/>
                 </Grid>
                 <Grid>
                     <ui:ProgressRing x:Name="progressRing_Compress" IsActive="True" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
