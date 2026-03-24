@@ -18,7 +18,7 @@ namespace PvzLauncherRemake.Pages
     /// <summary>
     /// PageDownloadConfirm.xaml 的交互逻辑
     /// </summary>
-    public partial class PageDownloadConfirm : ModernWpf.Controls.Page
+    public partial class PageDownloadDetail : ModernWpf.Controls.Page
     {
         public JsonDownloadIndex.GameInfo Info { get; set; }
         public string BaseDirectory { get; set; }
@@ -150,7 +150,7 @@ namespace PvzLauncherRemake.Pages
         }
         #endregion
 
-        public PageDownloadConfirm()
+        public PageDownloadDetail()
         {
             InitializeComponent();
             Loaded += ((s, e) => Initialize());
