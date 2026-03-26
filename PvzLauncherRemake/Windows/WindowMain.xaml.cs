@@ -64,7 +64,6 @@ namespace PvzLauncherRemake.Windows
                 AddType(typeof(PageLaunch));
                 AddType(typeof(PageManage));
                 AddType(typeof(PageDownload));
-                AddType(typeof(PageToolbox));
 
                 AddType(typeof(PageHelp));
                 AddType(typeof(PageTask));
