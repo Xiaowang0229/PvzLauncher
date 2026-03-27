@@ -8,7 +8,7 @@
     <UseWPF>true</UseWPF>
     <NoWarn>NU1701</NoWarn>
     <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
-    <ApplicationIcon>Assets\Icons\App\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\App\Icon.ico</ApplicationIcon>
 
 
     <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
@@ -17,13 +17,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\Icons\App\Icon.ico">
+    <Content Include="Resources\Icons\App\Icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Images\sponsor_qrcode.png">
+    <Content Include="Resources\Images\sponsor_qrcode.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Documents\EULA.md">
+    <Content Include="Resources\Documents\EULA.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
