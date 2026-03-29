@@ -51,7 +51,7 @@ namespace PvzLauncherRemake.Pages
                         echoCaveTemp.Add(echoCave);
                 }
 
-
+                button_EchoCave.IsEnabled = false;
                 var animation = new DoubleAnimation
                 {
                     From = 1,
@@ -71,6 +71,7 @@ namespace PvzLauncherRemake.Pages
 
                 button_EchoCave.BeginAnimation(OpacityProperty, null);
                 button_EchoCave.BeginAnimation(OpacityProperty, animation);
+                button_EchoCave.IsEnabled = true;
             }
             catch (Exception ex)
             {
