@@ -22,7 +22,7 @@
             <ctrl:UserCard x:Name="userGameCard" VerticalAlignment="Top" Margin="0,0,0,10" IsReadOnly="True"/>
 
             <!--操作按钮-->
-            <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+            <WrapPanel Orientation="Horizontal" Margin="10,0,10,10" ItemHeight="40">
                 <!--打开文件夹-->
                 <Button x:Name="button_OpenFolder" Margin="0,0,10,0" Click="button_OpenFolder_Click">
                     <StackPanel Orientation="Horizontal">
@@ -59,7 +59,7 @@
                         <TextBlock Text="{lex:Loc ChangeExecute}"/>
                     </StackPanel>
                 </Button>
-            </StackPanel>
+            </WrapPanel>
 
             <!--统计信息-->
             <StackPanel Margin="10,0,10,10">
