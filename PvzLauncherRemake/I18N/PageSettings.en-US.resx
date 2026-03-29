@@ -273,4 +273,7 @@
   <data name="DownloadNotice" xml:space="preserve">
     <value>Download notification:</value>
   </data>
+  <data name="GameWindowTitle" xml:space="preserve">
+    <value>Game window title (leave blank to not set):</value>
+  </data>
 </root>

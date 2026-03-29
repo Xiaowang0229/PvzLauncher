@@ -110,6 +110,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("start_up_location")]
             public string StartUpLocation { get; set; } = "Default";
+
+            [JsonProperty("window_title")]
+            public string WindowTitle { get; set; } = "";
         }
 
 

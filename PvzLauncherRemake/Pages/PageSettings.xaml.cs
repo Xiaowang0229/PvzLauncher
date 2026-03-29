@@ -223,6 +223,9 @@ namespace PvzLauncherRemake.Pages
                     case "LeftTop":
                         comboBox_Game_Location.SelectedIndex = 2; break;
                 }
+                //## 外观
+                //### 窗口标题
+                textBox_GameWindowTitle.Text = AppGlobals.Config.Settings.GameConfig.WindowTitle;
 
 
                 //# 存档设置
@@ -652,6 +655,15 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppGlobals.Config.Settings.GameConfig.StartUpLocation = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Game_WindowTitle(object sender, TextChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.GameConfig.WindowTitle= textBox_GameWindowTitle.Text;
                 ConfigManager.SaveConfig();
             }
         }

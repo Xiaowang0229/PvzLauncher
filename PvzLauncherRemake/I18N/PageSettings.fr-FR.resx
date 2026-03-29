@@ -273,4 +273,7 @@
   <data name="LaunchWithTrainer" xml:space="preserve">
     <value>Le modificateur est lancé avec le jeu :</value>
   </data>
+  <data name="GameWindowTitle" xml:space="preserve">
+    <value>Titre de la fenêtre de jeu (laisser vide pour ne pas définir) :</value>
+  </data>
 </root>

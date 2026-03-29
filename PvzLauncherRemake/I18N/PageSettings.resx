@@ -273,4 +273,7 @@
   <data name="LaunchWithTrainer" xml:space="preserve">
     <value>修改器随游戏启动:</value>
   </data>
+  <data name="GameWindowTitle" xml:space="preserve">
+    <value>游戏窗口标题(留空为不设置):</value>
+  </data>
 </root>

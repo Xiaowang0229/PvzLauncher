@@ -273,4 +273,7 @@
   <data name="LaunchWithTrainer" xml:space="preserve">
     <value>Модификатор запускается вместе с игрой:</value>
   </data>
+  <data name="GameWindowTitle" xml:space="preserve">
+    <value>Заголовок окна игры (оставьте пустым, чтобы не устанавливать):</value>
+  </data>
 </root>

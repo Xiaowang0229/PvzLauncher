@@ -273,4 +273,7 @@
   <data name="LaunchWithTrainer" xml:space="preserve">
     <value>수정자는 게임과 함께 시작됩니다:</value>
   </data>
+  <data name="GameWindowTitle" xml:space="preserve">
+    <value>게임 창 제목(설정하지 않으려면 비워두세요):</value>
+  </data>
 </root>

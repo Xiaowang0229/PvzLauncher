@@ -352,6 +352,8 @@ namespace PvzLauncherRemake.Utils.Services
             }
             SetGameFullScreen();
             SetGameLocation();
+            if (!string.IsNullOrEmpty(AppGlobals.Config.Settings.GameConfig.WindowTitle))
+                SetGameTitle(AppGlobals.Config.Settings.GameConfig.WindowTitle);
 
             //启动次数
             gameInfo.Record.PlayCount++;
@@ -578,6 +580,23 @@ namespace PvzLauncherRemake.Utils.Services
 
         #endregion
 
+        #region 游戏进程操作
+        /// <summary>
+        /// 设置全局Process对象的窗口标题
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="delayMs"></param>
+        public static async void SetGameTitle(string title, int delayMs = 2000)
+        {
+            await Task.Delay(2000);
+
+            try
+            {
+                Win32APIHelper.SetWindowTitle(AppProcess.Process, title);
+            }
+            catch (Exception) { }
+        }
+        #endregion
 
     }
 }

@@ -223,6 +223,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 游戏窗口标题(留空为不设置): 的本地化字符串。
+        /// </summary>
+        public static string GameWindowTitle {
+            get {
+                return ResourceManager.GetString("GameWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 语言: 的本地化字符串。
         /// </summary>
         public static string Language {

@@ -211,6 +211,18 @@
                             </StackPanel>
                         </StackPanel>
                         
+                        <!--游戏配置-->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="{lex:Loc Appearance}" FontSize="25" FontWeight="Bold"/>
+                            
+                            <!--窗口标题-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{lex:Loc GameWindowTitle}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+
+                                <TextBox x:Name="textBox_GameWindowTitle" ToolTip="设置游戏窗口标题（可能会失败），那些以窗口名检测游戏的修改器可能会受到影响" TextChanged="Game_WindowTitle"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
                     </StackPanel>
                 </ctrl:UserScrollViewer>
             </TabItem>
