@@ -218,15 +218,17 @@ namespace PvzLauncherRemake.Pages
                 comboBox.Items.Clear();
                 foreach (var icon in Enum.GetValues(typeof(GameIcons)))
                 {
-                    var item = new Viewbox
+                    var item = new Grid
                     {
                         Height = 30,
                         Width = 30,
                         Tag = (GameIcons)icon,
-                        Margin = new Thickness(0, 0, 10, 0),
-                        Child = GameIconConverter.ParseGameIconToUserControl((GameIcons)icon)
+                        Margin = new Thickness(0, 0, 10, 0)
                     };
+                    item.Children.Add(GameIconConverter.ParseGameIconToUserControl((GameIcons)icon));
+
                     comboBox.Items.Add(item);
+
                     if (GameInfo.GameInfo.Icon == GameIconConverter.ParseGameIconsToString((GameIcons)icon))
                         comboBox.SelectedItem = item;
                 }
