@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PvzLauncherRemake.Windows"
         mc:Ignorable="d"
-        Title="WindowOverlay" Height="600" Width="800" WindowStyle="None" Topmost="True" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent">
-    <Grid>
+        Title="WindowOverlay" Height="600" Width="800" WindowStyle="None" Topmost="True" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False">
+    <Grid Background="#7F00FF00" Margin="0,30,0,0">
         
     </Grid>
 </Window>

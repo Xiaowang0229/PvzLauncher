@@ -7,6 +7,7 @@ using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
+using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -356,6 +357,11 @@ namespace PvzLauncherRemake.Utils.Services
             SetGameLocation();
             if (!string.IsNullOrEmpty(AppGlobals.Config.Settings.GameConfig.WindowTitle))
                 SetGameTitle(AppGlobals.Config.Settings.GameConfig.WindowTitle);
+            if (AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled)
+            {
+                var windowOverlay = new WindowOverlay();
+                windowOverlay.Show();
+            }
 
             //启动次数
             gameInfo.Record.PlayCount++;
