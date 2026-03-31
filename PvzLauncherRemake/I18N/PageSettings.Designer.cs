@@ -421,6 +421,24 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 游戏内覆盖界面 的本地化字符串。
+        /// </summary>
+        public static string OverlayUI {
+            get {
+                return ResourceManager.GetString("OverlayUI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 覆盖界面: 的本地化字符串。
+        /// </summary>
+        public static string OverlayUIText {
+            get {
+                return ResourceManager.GetString("OverlayUIText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 重置 的本地化字符串。
         /// </summary>
         public static string Reset {

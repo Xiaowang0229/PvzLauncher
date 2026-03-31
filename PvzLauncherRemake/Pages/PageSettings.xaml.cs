@@ -226,7 +226,9 @@ namespace PvzLauncherRemake.Pages
                 //## 外观
                 //### 窗口标题
                 textBox_GameWindowTitle.Text = AppGlobals.Config.Settings.GameConfig.WindowTitle;
-
+                //## 覆盖界面
+                //### 启用
+                checkbox_Game_Overlay_Enabled.IsChecked = AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled;
 
                 //# 存档设置
                 //## 存档隔离
@@ -664,6 +666,15 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppGlobals.Config.Settings.GameConfig.WindowTitle= textBox_GameWindowTitle.Text;
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Game_OverlayUIEnabled(object sender,RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.GameConfig.OverlayUIEnabled = checkbox_Game_Overlay_Enabled.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
         }

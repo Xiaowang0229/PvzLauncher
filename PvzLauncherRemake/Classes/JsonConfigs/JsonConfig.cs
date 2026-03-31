@@ -113,6 +113,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("window_title")]
             public string WindowTitle { get; set; } = "";
+
+            [JsonProperty("overlay_enabled")]
+            public bool OverlayUIEnabled { get; set; } = false;
         }
 
 
