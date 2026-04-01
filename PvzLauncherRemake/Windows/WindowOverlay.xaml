@@ -4,10 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PvzLauncherRemake.Windows"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:icons="clr-namespace:PvzLauncherRemake.Controls.Icons"
         mc:Ignorable="d"
         Title="WindowOverlay" Height="600" Width="800" WindowStyle="None" Topmost="True" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False"
-        Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded">
-    <Grid Margin="3,30,3,3">
-        <Rectangle Fill="#7F00FF00"/>
+        Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded"
+        
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
+        lex:ResxLocalizationProvider.DefaultDictionary="I18N.WindowOverlay">
+    <Grid Margin="3,26,3,3">
+        <Rectangle Fill="#7F000000"/>
+        <TabControl Style="{StaticResource TabControlPivotStyle}">
+            <!--主页-->
+            <TabItem Header="{lex:Loc Home}">
+                <StackPanel>
+                    <icons:TitleImageEn VerticalAlignment="Top" Width="400" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                    <TextBlock Text="欢迎使用全新的游戏内覆盖界面！" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock Text="在这里你可以在游戏内完成一系列操作。现在开始吧！" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <Button x:Name="button_HideOverlay" Width="35" Height="35" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" Background="{x:Null}" Click="button_HideOverlay_Click">
+            <ui:PathIcon Height="10" Width="10" Data="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+        </Button>
     </Grid>
 </Window>

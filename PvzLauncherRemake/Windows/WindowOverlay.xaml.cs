@@ -96,5 +96,7 @@ namespace PvzLauncherRemake.Windows
                 this.Visibility = Visibility.Hidden;
             }
         }
+
+        private void button_HideOverlay_Click(object sender, RoutedEventArgs e) => ToggleOverlay(false);
     }
 }

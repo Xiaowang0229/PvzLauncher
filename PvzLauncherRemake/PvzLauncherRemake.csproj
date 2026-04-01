@@ -104,6 +104,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>WindowMain.resx</DependentUpon>
     </Compile>
+    <Compile Update="I18N\WindowOverlay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WindowOverlay.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -150,6 +155,10 @@
     <EmbeddedResource Update="I18N\WindowMain.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WindowMain.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="I18N\WindowOverlay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WindowOverlay.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
