@@ -79,6 +79,8 @@ namespace PvzLauncherRemake.Windows
             ThemeManager.SetRequestedTheme(this, ElementTheme.Dark);
 
             windowInteropHelper = new WindowInteropHelper(this);
+
+            HotkeyManager.Current.AddOrReplace("ToggleOverlay", Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -86,20 +88,6 @@ namespace PvzLauncherRemake.Windows
             _timer?.Stop();
             _timer = null;
             HotkeyManager.Current.Remove("ToggleOverlay");
-        }
-
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-            //注册热键
-            try
-            {
-                //切换覆盖层显示
-                HotkeyManager.Current.AddOrReplace("ToggleOverlay", Key.P, ModifierKeys.Control | ModifierKeys.Alt, ((s, e) => ToggleOverlay()));
-            }
-            catch (Exception ex)
-            {
-                ErrorReportDialog.Show(ex);
-            }
         }
 
         private void ToggleOverlay(bool? targetState = null)

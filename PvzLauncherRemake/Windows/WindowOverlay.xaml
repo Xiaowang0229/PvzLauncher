@@ -8,7 +8,7 @@
         xmlns:icons="clr-namespace:PvzLauncherRemake.Controls.Icons"
         mc:Ignorable="d"
         Title="WindowOverlay" Height="600" Width="800" WindowStyle="None" Topmost="True" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False"
-        Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded"
+        Closing="Window_Closing" Loaded="Window_Loaded"
         
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:ResxLocalizationProvider.DefaultAssembly="PvzLauncherRemake"
