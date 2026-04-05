@@ -22,7 +22,9 @@ namespace PvzLauncherRemake.Utils.Services
         public static string LatestVersion = null!;
         public static string ChangeLog = null!;
         public static string Url = null!;
-        public static string SavePath = Path.Combine(AppGlobals.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE");
+        public static string UrlShell = null!;
+        public static string BinPackSavePath = Path.Combine(AppGlobals.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.BIN");
+        public static string ShellPackSavePath = Path.Combine(AppGlobals.TempDiectory, "PVZLAUNCHER.UPDATE.CACHE.SHELL");
 
         public static bool isUpdate = false;
 
@@ -69,12 +71,14 @@ namespace PvzLauncherRemake.Utils.Services
                     LatestVersion = UpdateIndex.Stable.LatestVersion;
                     ChangeLog = await Client.GetStringAsync(UpdateIndex.Stable.ChangeLog);
                     Url = UpdateIndex.Stable.Url;
+                    UrlShell = UpdateIndex.Stable.UrlShell;
                     break;
 
                 case "Development":
                     LatestVersion = UpdateIndex.Development.LatestVersion;
                     ChangeLog = await Client.GetStringAsync(UpdateIndex.Development.ChangeLog);
                     Url = UpdateIndex.Development.Url;
+                    UrlShell = UpdateIndex.Stable.UrlShell;
                     break;
 
                 default:
@@ -87,7 +91,7 @@ namespace PvzLauncherRemake.Utils.Services
                     });
                     return;
             }
-            logger.Info($"[更新器] 最新版本: {LatestVersion}  更新文件Url: {Url}");
+            logger.Info($"[更新器] 最新版本: {LatestVersion}  更新文件Url: {Url}  ShellUrl: {UrlShell}");
 
             //判断版本
             logger.Info($"[更新器] 当前版本: {AppGlobals.Version}");
@@ -138,12 +142,14 @@ namespace PvzLauncherRemake.Utils.Services
 
             //开始更新
             bool? done = null;
+            bool? doneShell = null;
             string errorMessage = null!;
+            string errorMessageShell = null!;
 
             var downloader = new Downloader
             {
                 Url = Url,
-                SavePath = SavePath,
+                SavePath = BinPackSavePath,
                 Completed = ((s, e) =>
                 {
                     if (s)
@@ -160,12 +166,33 @@ namespace PvzLauncherRemake.Utils.Services
                     logger.Info($"[更新器] 下载更新文件: {Math.Round(p, 2)}  ({Math.Round(s / 1024, 2)}MB/s)");
                 })
             };
+            var downloaderShell = new Downloader
+            {
+                Url = UrlShell,
+                SavePath = ShellPackSavePath,
+                Completed = ((s, e) =>
+                {
+                    if (s)
+                        doneShell = true;
+                    else
+                    {
+                        doneShell = false;
+                        errorMessageShell = e!;
+                    }
+                }),
+                Progress = ((p, s) =>
+                {
+                    progressCallback?.Invoke(p, s);
+                    logger.Info($"[更新器] 下载更新文件: {Math.Round(p, 2)}  ({Math.Round(s / 1024, 2)}MB/s)");
+                })
+            };
             logger.Info($"[更新器] 开始下载更新文件");
 
             downloader.StartDownload();
+            downloaderShell.StartDownload();
 
             //等待下载完毕
-            while (done == null)
+            while (done == null || doneShell == null) 
                 await Task.Delay(1000);
 
             logger.Info($"[更新器] 下载完成");
@@ -175,12 +202,12 @@ namespace PvzLauncherRemake.Utils.Services
             //下载成功↓
             //运行更新服务
             logger.Info($"[更新器] 下载完成，运行更新服务");
-            if (File.Exists(Path.Combine(AppGlobals.ExecuteDirectory, "UpdateService.exe")))
+            if (File.Exists(Path.Combine(AppGlobals.ExecuteDirectory, "StdUpdateService.exe")))
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = Path.Combine(AppGlobals.ExecuteDirectory, "UpdateService.exe"),
-                    Arguments = $"-updatefile {SavePath}",
+                    FileName = Path.Combine(AppGlobals.ExecuteDirectory, "StdUpdateService.exe"),
+                    Arguments = $"-binpack \"{BinPackSavePath}\" -shellpack \"{ShellPackSavePath}\" -binpath \"{AppGlobals.ExecuteDirectory}\" -shellpath \"{AppGlobals.RootDirectory}\" -exepath \"{Path.Combine(AppGlobals.ExecuteDirectory, "PvzLauncherRemake.exe")}\" -selfupdate",
                     UseShellExecute = true
                 });
                 Environment.Exit(0);

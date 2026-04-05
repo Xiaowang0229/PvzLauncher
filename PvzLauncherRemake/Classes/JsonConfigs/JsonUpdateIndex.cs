@@ -26,6 +26,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("url")]
             public string Url { get; set; }
+
+            [JsonProperty("url_shell")]
+            public string UrlShell { get; set; }
         }
     }
 }
