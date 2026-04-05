@@ -109,11 +109,13 @@ namespace PvzLauncherRemake.Pages
                 stackPanel_zhOrigin.Children.Clear();
                 stackPanel_zhRevision.Children.Clear();
                 stackPanel_enOrigin.Children.Clear();
+                stackPanel_enRevision.Children.Clear();
                 stackPanel_trainer.Children.Clear();
 
                 AddGameCard(stackPanel_zhOrigin, AppGlobals.DownloadIndex.ZhOrigin);
                 AddGameCard(stackPanel_zhRevision, AppGlobals.DownloadIndex.ZhRevision);
                 AddGameCard(stackPanel_enOrigin, AppGlobals.DownloadIndex.EnOrigin);
+                AddGameCard(stackPanel_enRevision, AppGlobals.DownloadIndex.EnRevision);
                 AddTrainerCard(stackPanel_trainer, AppGlobals.DownloadIndex.Trainer);
 
                 EndLoad();
@@ -205,7 +207,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 //检测有无内容
-                if (stackPanel_enOrigin.Children.Count <= 0 || stackPanel_trainer.Children.Count <= 0 || stackPanel_zhOrigin.Children.Count <= 0 || stackPanel_zhRevision.Children.Count <= 0)
+                if (stackPanel_enOrigin.Children.Count <= 0 || stackPanel_enRevision.Children.Count <= 0 || stackPanel_trainer.Children.Count <= 0 || stackPanel_zhOrigin.Children.Count <= 0 || stackPanel_zhRevision.Children.Count <= 0) 
                     return;
 
                 stackPanel_Search.Children.Clear();
@@ -215,6 +217,9 @@ namespace PvzLauncherRemake.Pages
                 allItem.Clear();
                 //添加项
                 foreach (var item in stackPanel_enOrigin.Children)
+                    if (item is UserCard card)
+                        allItem.Add(card);
+                foreach (var item in stackPanel_enRevision.Children)
                     if (item is UserCard card)
                         allItem.Add(card);
                 foreach (var item in stackPanel_trainer.Children)

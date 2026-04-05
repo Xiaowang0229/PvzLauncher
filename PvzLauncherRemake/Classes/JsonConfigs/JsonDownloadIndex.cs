@@ -9,6 +9,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("en_origin")]
             public GameInfo[] EnOrigin { get; set; }
 
+            [JsonProperty("en_revision")]
+            public GameInfo[] EnRevision { get; set; }
+
             [JsonProperty("zh_origin")]
             public GameInfo[] ZhOrigin { get; set; }
 

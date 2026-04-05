@@ -135,4 +135,7 @@
   <data name="Search" xml:space="preserve">
     <value>찾다</value>
   </data>
+  <data name="EnglishRevisionEdition" xml:space="preserve">
+    <value>영문개정</value>
+  </data>
 </root>

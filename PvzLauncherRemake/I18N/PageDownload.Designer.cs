@@ -88,6 +88,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 英文改版 的本地化字符串。
+        /// </summary>
+        public static string EnglishRevisionEdition {
+            get {
+                return ResourceManager.GetString("EnglishRevisionEdition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 游戏下载 的本地化字符串。
         /// </summary>
         public static string GameDownload {

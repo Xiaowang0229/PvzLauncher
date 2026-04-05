@@ -44,6 +44,14 @@
                                 </ctrl:UserScrollViewer>
                             </Grid>
                         </TabItem>
+                        <!--英文改版-->
+                        <TabItem Header="{lex:Loc EnglishRevisionEdition}">
+                            <Grid>
+                                <ctrl:UserScrollViewer>
+                                    <StackPanel x:Name="stackPanel_enRevision" Tag="game"/>
+                                </ctrl:UserScrollViewer>
+                            </Grid>
+                        </TabItem>
                     </TabControl>
                 </TabItem>
                 <!--修改器下载-->
