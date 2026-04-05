@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using ExecuteShell.Utils;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -43,6 +45,20 @@ namespace ExecuteShell.Windows
             InitializeComponent();
             Loaded += (async (s, e) =>
             {
+                //设置穿透
+                IntPtr hWnd = new WindowInteropHelper(this).Handle;
+                if (hWnd != IntPtr.Zero) 
+                {
+                    int extendedStyle = WinAPIHelper.GetWindowLong(hWnd, WinAPIHelper.GWL_EXSTYLE);
+
+                    // 添加 WS_EX_LAYERED 和 WS_EX_TRANSPARENT 标志
+                    // WS_EX_TRANSPARENT 使窗口对鼠标点击完全透明（穿透）
+                    WinAPIHelper.SetWindowLong(hWnd, WinAPIHelper.GWL_EXSTYLE, extendedStyle | WinAPIHelper.WS_EX_LAYERED | WinAPIHelper.WS_EX_TRANSPARENT);
+                }
+
+
+
+
                 var iconTrans = (ScaleTransform)icon.RenderTransform;
                 iconTrans.ScaleX = 2.5;
                 iconTrans.ScaleY = 2.5;
