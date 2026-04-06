@@ -240,7 +240,6 @@ namespace PvzLauncherRemake.Pages
                     Text = GameInfo.GameInfo.Version,
                     Margin = new Thickness(0, 0, 0, 10)
                 };
-
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "更改版本信息",
@@ -268,7 +267,7 @@ namespace PvzLauncherRemake.Pages
                 }, (() =>
                 {
                     GameInfo.GameInfo.Version = textBox.Text;
-                    GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Viewbox)comboBox.SelectedItem).Tag);
+                    GameInfo.GameInfo.Icon = GameIconConverter.ParseGameIconsToString((GameIcons)((Grid)comboBox.SelectedItem).Tag);
                     Json.WriteJson(System.IO.Path.Combine(AppGlobals.GameDirectory, GameInfo.GameInfo.Name, ".pvzl.json"), GameInfo);
 
                     SnackbarManager.Show(new SnackbarContent
@@ -277,7 +276,6 @@ namespace PvzLauncherRemake.Pages
                         Content = "您的版本信息已更改",
                         Type = SnackbarType.Success
                     });
-
                     this.NavigationService.Refresh();
                 }));
             }
