@@ -125,7 +125,7 @@ namespace PvzLauncherRemake.Utils.Services
                     Title = "请选择游戏/修改器所在的文件夹"
                 };
 
-
+        
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
                 var radioButtonTrainer = new RadioButton { Content = "修改器" };
@@ -148,6 +148,22 @@ namespace PvzLauncherRemake.Utils.Services
 
                 if (openFolderDialog.ShowDialog() != true)
                     return;
+
+
+                //特殊文件夹判断
+                if (openFolderDialog.FolderName == AppGlobals.ExecuteDirectory ||
+                    openFolderDialog.FolderName == AppGlobals.RootDirectory ||
+                    openFolderDialog.FolderName == AppGlobals.GameDirectory ||
+                    openFolderDialog.FolderName == AppGlobals.TrainerDirectory)
+                {
+                    SnackbarManager.Show(new SnackbarContent
+                    {
+                        Title = "导入失败",
+                        Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
+                        Type = SnackbarType.Error
+                    });
+                    return;
+                }
 
 
                 //解决重名
