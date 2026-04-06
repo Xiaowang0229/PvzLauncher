@@ -139,4 +139,7 @@
   <data name="SponsorList" xml:space="preserve">
     <value>自PvzLauncher发布以来的所有赞助者 (按赞助时间排序)</value>
   </data>
+  <data name="DontClick" xml:space="preserve">
+    <value>千万别点</value>
+  </data>
 </root>

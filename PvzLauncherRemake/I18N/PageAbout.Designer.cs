@@ -79,6 +79,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 千万别点 的本地化字符串。
+        /// </summary>
+        public static string DontClick {
+            get {
+                return ResourceManager.GetString("DontClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 反馈问题 的本地化字符串。
         /// </summary>
         public static string FeedBack {

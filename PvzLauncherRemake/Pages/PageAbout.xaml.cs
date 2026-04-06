@@ -4,6 +4,7 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -227,6 +228,54 @@ namespace PvzLauncherRemake.Pages
                 DefaultButton = ContentDialogButton.Close
             };
             await DialogManager.ShowDialogAsync(dialog);
+        }
+
+        private async void button_DontClick_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int temp = new Random().Next(1, 1);
+
+                var result= await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "警告",
+                    Content = "按钮上明明写着 \"千万别点\"，但你还是点了。本软件不对接下来发生的事负责。请确认",
+                    PrimaryButtonText = "确认",
+                    CloseButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+                if (result != ContentDialogResult.Primary)
+                    return;
+
+                switch (temp)
+                {
+                    case 1:
+                        while(true)
+                        {
+                            int maxWidth = (int)SystemParameters.PrimaryScreenWidth;
+                            int maxHeight = (int)SystemParameters.PrimaryScreenHeight;
+
+                            if (Application.Current.MainWindow is not WindowMain win)
+                                break;
+                            win.Width = new Random().Next(0, maxWidth);
+                            win.Height = new Random().Next(0, maxHeight);
+
+                            win.Left = new Random().Next(0, (int)(maxWidth - win.Width));
+                            win.Top = new Random().Next(0, (int)(maxHeight - win.Height));
+
+                            
+
+
+                            await Task.Delay(1);
+                        }
+
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
         }
     }
 }

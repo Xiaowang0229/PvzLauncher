@@ -159,4 +159,7 @@
   <data name="SponsorList" xml:space="preserve">
     <value>Alle Sponsoren seit dem Start von PvzLauncher</value>
   </data>
+  <data name="DontClick" xml:space="preserve">
+    <value>Klicken Sie niemals</value>
+  </data>
 </root>
