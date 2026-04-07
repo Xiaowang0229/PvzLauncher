@@ -20,6 +20,7 @@ namespace PvzLauncherRemake.Utils.Services
     {
         public static DateTimeOffset? LatestGameLaunchTime = null;
         public static bool IsGameRuning = false;
+        public static Process GameProcess = new Process();
 
         #region 加载列表
 
@@ -343,7 +344,7 @@ namespace PvzLauncherRemake.Utils.Services
             string gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
 
             //定义Process
-            AppProcess.Process = new Process
+            GameProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -354,7 +355,7 @@ namespace PvzLauncherRemake.Utils.Services
             };
 
             //启动
-            AppProcess.Process.Start();
+            GameProcess.Start();
 
             LatestGameLaunchTime = DateTimeOffset.Now;
 
@@ -401,7 +402,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// </summary>
         public static async Task WaitGameExit(JsonGameInfo.Index gameInfo)
         {
-            await AppProcess.Process.WaitForExitAsync();
+            await GameProcess.WaitForExitAsync();
 
             IsGameRuning = false;
 
@@ -424,23 +425,23 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns></returns>
         public static async Task KillGame(Action? completeCallback = null, Action? failCallback = null)
         {
-            if (!AppProcess.Process.HasExited)
+            if (!GameProcess.HasExited)
             {
 
-                AppProcess.Process.CloseMainWindow();
+                GameProcess.CloseMainWindow();
                 //等待自己关闭
                 await Task.Delay(1000);
 
                 //强制关
-                if (!AppProcess.Process.HasExited)
+                if (!GameProcess.HasExited)
                 {
 
-                    AppProcess.Process.Kill();
+                    GameProcess.Kill();
                     //等待完全关闭
                     await Task.Delay(1000);
                 }
 
-                if (!AppProcess.Process.HasExited)
+                if (!GameProcess.HasExited)
                 {
                     //都Kill()了不能再关不上吧
 
@@ -639,7 +640,7 @@ namespace PvzLauncherRemake.Utils.Services
                     if (!IsGameRuning)
                         return;
 
-                    var result = Win32APIHelper.SetWindowTitle(AppProcess.Process.MainWindowHandle, title);
+                    var result = Win32APIHelper.SetWindowTitle(GameProcess.MainWindowHandle, title);
                     if (result)
                         return;
 

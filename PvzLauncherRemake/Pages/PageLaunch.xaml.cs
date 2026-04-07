@@ -323,7 +323,7 @@ namespace PvzLauncherRemake.Pages
                         SnackbarManager.Show(new SnackbarContent
                         {
                             Title = "提示",
-                            Content = $"游戏进程退出, 退出代码: {AppProcess.Process.ExitCode}",
+                            Content = $"游戏进程退出, 退出代码: {GameManager.GameProcess.ExitCode}",
                             Type = SnackbarType.Warn
                         });
 
