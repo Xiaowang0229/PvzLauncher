@@ -1,7 +1,7 @@
 ﻿using Ookii.Dialogs.Wpf;
 using System.Diagnostics;
 using System.Windows;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Utils.UI
 {
@@ -9,11 +9,6 @@ namespace PvzLauncherRemake.Utils.UI
     {
         public static async void Show(Exception ex, bool isUnHandleException = false)
         {
-            logger.Error(
-                $"{new string('=', 10)}ERROR{new string('=', 10)}\n" +
-                $"{ex}\n" +
-                $"{new string('=', 10)}ERROR{new string('=', 10)}");
-
             var dialog = new TaskDialog
             {
                 WindowTitle = isUnHandleException ? "发生未捕获的错误" : "发生错误",

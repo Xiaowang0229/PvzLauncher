@@ -159,4 +159,7 @@
   <data name="SponsorList" xml:space="preserve">
     <value>自PvzLauncher發布以來的所有贊助者</value>
   </data>
+  <data name="DontClick" xml:space="preserve">
+    <value>千萬不要點擊</value>
+  </data>
 </root>

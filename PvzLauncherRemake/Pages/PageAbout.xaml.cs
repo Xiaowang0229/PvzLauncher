@@ -4,6 +4,7 @@ using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Controls;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
+using PvzLauncherRemake.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -11,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -84,7 +84,6 @@ namespace PvzLauncherRemake.Pages
         {
             if (sender is Button button)
             {
-                logger.Info($"[关于] 跳转Url => {button.Tag}");
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = button.Tag.ToString(),
@@ -93,18 +92,9 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public void GoToHelpCenter(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                this.NavigationService.Navigate(new PageHelp());
-            }
-        }
-
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _eggCount++;
-            logger.Info($"[关于] 触发彩蛋，当前点击次数: {_eggCount}");
 
             foreach (var (clicks, title, message, type, action) in EasterEggs)
             {
@@ -126,8 +116,6 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[关于] 用户尝试进入控制台");
-
                 if (Debugger.IsAttached)
                 {
                     SnackbarManager.Show(new SnackbarContent
@@ -205,7 +193,7 @@ namespace PvzLauncherRemake.Pages
 
         private async void button_Sponsor_Click(object sender, RoutedEventArgs e)
         {
-            string qrcodePath = Path.Combine(AppGlobals.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
+            string qrcodePath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Resources", "Images", "sponsor_qrcode.png");
             if (!File.Exists(qrcodePath))
                 throw new FileNotFoundException("文件不存在", qrcodePath);
             var bitmap = new BitmapImage(new Uri(qrcodePath));
@@ -227,6 +215,51 @@ namespace PvzLauncherRemake.Pages
                 DefaultButton = ContentDialogButton.Close
             };
             await DialogManager.ShowDialogAsync(dialog);
+        }
+
+        private async void button_DontClick_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int temp = new Random().Next(1, 1);
+
+                var result = await DialogManager.ShowDialogAsync(new ContentDialog
+                {
+                    Title = "警告",
+                    Content = "按钮上明明写着 \"千万别点\"，但你还是点了。本软件不对接下来发生的事负责。请确认",
+                    PrimaryButtonText = "确认",
+                    CloseButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                });
+                if (result != ContentDialogResult.Primary)
+                    return;
+
+                switch (temp)
+                {
+                    case 1:
+                        while (true)
+                        {
+                            int maxWidth = (int)SystemParameters.PrimaryScreenWidth;
+                            int maxHeight = (int)SystemParameters.PrimaryScreenHeight;
+
+                            if (Application.Current.MainWindow is not WindowMain win)
+                                break;
+                            win.Width = new Random().Next(0, maxWidth);
+                            win.Height = new Random().Next(0, maxHeight);
+
+                            win.Left = new Random().Next(0, (int)(maxWidth - win.Width));
+                            win.Top = new Random().Next(0, (int)(maxHeight - win.Height));
+
+                            await Task.Delay(1);
+                        }
+
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorReportDialog.Show(ex);
+            }
         }
     }
 }

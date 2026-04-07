@@ -1,7 +1,7 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Windows;
 using System.Windows;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Utils.UI
 {
@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Utils.UI
             Action? closeCallback = null,
             DialogDisplayArea displayArea = DialogDisplayArea.Main)
         {
-            logger.Info($"[对话框管理器] 请求显示对话框 → {dialog.Title}");
+
 
             switch (displayArea)
             {
@@ -53,7 +53,7 @@ namespace PvzLauncherRemake.Utils.UI
             {
                 var result = await dialog.ShowAsync();
 
-                logger.Info($"[对话框管理器] 对话框关闭 ← {dialog.Title}，用户选择：{result}");
+
 
                 // 执行回调
                 switch (result)
@@ -65,9 +65,9 @@ namespace PvzLauncherRemake.Utils.UI
 
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Error($"[对话框管理器] 显示对话框异常: {ex}");
+
                 return ContentDialogResult.None;
             }
             finally

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using ModernWpf;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -16,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Pages
 {
@@ -105,10 +104,10 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[设置] 开始初始化");
 
 
-                logger.Info($"[设置] 当前配置文件: {JsonConvert.SerializeObject(AppGlobals.Config)}");
+
+
 
                 isInitialized = false;
 
@@ -127,6 +126,16 @@ namespace PvzLauncherRemake.Pages
                 }
                 //### 修改器随游戏启动
                 checkbox_Launcher_LaunchWithTrainer.IsChecked = AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer;
+                //### 管理选择模式
+                radioButton_Launcher_ManageSelectMode_Single.IsChecked = false;
+                radioButton_Launcher_ManageSelectMode_Double.IsChecked = false;
+                switch (AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode)
+                {
+                    case "Single":
+                        radioButton_Launcher_ManageSelectMode_Single.IsChecked = true;break;
+                    case "Double":
+                        radioButton_Launcher_ManageSelectMode_Double.IsChecked = true;break;
+                }
                 //## 外观
                 //### 主题
                 radioButton_Theme_Light.IsChecked = false;
@@ -171,7 +180,7 @@ namespace PvzLauncherRemake.Pages
                     }
                 }
                 //### 回声洞
-                checkBox_Launcher_EchoCave.IsChecked = AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled;
+                //checkBox_Launcher_EchoCave.IsChecked = AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled;
                 //### 公告
                 checkBox_Launcher_Notice.IsChecked = AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled;
                 //### 启动动画
@@ -190,6 +199,11 @@ namespace PvzLauncherRemake.Pages
                 checkBox_Network_OfflineMode.IsChecked = AppGlobals.Config.Settings.LauncherConfig.OfflineMode;
                 //## 更新
                 //### 更新通道
+                if (!AppGlobals.IsStable)
+                {
+                    comboBox_UpdateChannel.IsEnabled = false;
+                    AppGlobals.Config.Settings.LauncherConfig.UpdateChannel = "Development";
+                }
                 switch (AppGlobals.Config.Settings.LauncherConfig.UpdateChannel)
                 {
                     case "Stable":
@@ -223,6 +237,16 @@ namespace PvzLauncherRemake.Pages
                     case "LeftTop":
                         comboBox_Game_Location.SelectedIndex = 2; break;
                 }
+                //### 3D加速
+                switch (AppGlobals.Config.Settings.GameConfig.ThreeDMode)
+                {
+                    case "Default":
+                        comboBox_Game_3DMode.SelectedIndex = 0; break;
+                    case "On":
+                        comboBox_Game_3DMode.SelectedIndex = 1; break;
+                    case "Off":
+                        comboBox_Game_3DMode.SelectedIndex = 2; break;
+                }
                 //## 外观
                 //### 窗口标题
                 textBox_GameWindowTitle.Text = AppGlobals.Config.Settings.GameConfig.WindowTitle;
@@ -242,12 +266,12 @@ namespace PvzLauncherRemake.Pages
 
 
 
-                logger.Info($"[设置] 设置项应用完毕");
+
 
                 await StartAnimation();
 
                 isInitialized = true;
-                logger.Info($"[设置] 完成初始化");
+
             }
             catch (Exception ex)
             {
@@ -321,6 +345,15 @@ namespace PvzLauncherRemake.Pages
             if (isInitialized)
             {
                 AppGlobals.Config.Settings.LauncherConfig.LaunchWithTrainer = checkbox_Launcher_LaunchWithTrainer.IsChecked == true ? true : false;
+                ConfigManager.SaveConfig();
+            }
+        }
+
+        private void Launcher_ManageSelectMode(object sender, RoutedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.LauncherConfig.ManageSelectMode = (string)(((RadioButton)sender).Tag);
                 ConfigManager.SaveConfig();
             }
         }
@@ -432,7 +465,7 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        private void Launcher_EchoCave(object sender, RoutedEventArgs e)
+        /*private void Launcher_EchoCave(object sender, RoutedEventArgs e)
         {
             if (isInitialized)
             {
@@ -442,7 +475,7 @@ namespace PvzLauncherRemake.Pages
                 AppGlobals.Config.Settings.LauncherConfig.EchoCaveEnabled = checkBox.IsChecked == true ? true : false;
                 ConfigManager.SaveConfig();
             }
-        }
+        }*/
 
         private void Launcher_Notice(object sender, RoutedEventArgs e)
         {
@@ -557,7 +590,7 @@ namespace PvzLauncherRemake.Pages
 
                     await Task.Run(() =>
                     {
-                        allTempFiles = Directory.GetFiles(AppGlobals.TempDiectory);
+                        allTempFiles = Directory.GetFiles(AppGlobals.Directories.TempDiectory);
                     });
 
                     if (!(allTempFiles.Length > 0))
@@ -661,6 +694,15 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
+        private void Game_3DMode(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                AppGlobals.Config.Settings.GameConfig.ThreeDMode = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Tag.ToString()!;
+                ConfigManager.SaveConfig();
+            }
+        }
+
         private void Game_WindowTitle(object sender, TextChangedEventArgs e)
         {
             if (isInitialized)
@@ -708,12 +750,12 @@ namespace PvzLauncherRemake.Pages
                         try
                         {
 
-                            if (Directory.Exists(AppGlobals.SaveDirectory))
+                            if (Directory.Exists(AppGlobals.Directories.SaveDirectory))
                             {
                                 StartLoad();
                                 await Task.Run(() =>
                                 {
-                                    Directory.Delete(AppGlobals.SaveDirectory, true);
+                                    Directory.Delete(AppGlobals.Directories.SaveDirectory, true);
                                 });
                                 EndLoad();
                                 SnackbarManager.Show(new SnackbarContent
@@ -780,12 +822,12 @@ namespace PvzLauncherRemake.Pages
             {
                 if (AppGlobals.Config.Settings.SaveConfig.EnableSaveIsolation)
                 {
-                    if (AppGlobals.GameList.Count >= 2)
+                    if (AppGlobals.Indexes.GameList.Count >= 2)
                     {
                         var listBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
                         string originGameName = null!;
                         string targetGameName = null!;
-                        foreach (var game in AppGlobals.GameList)
+                        foreach (var game in AppGlobals.Indexes.GameList)
                         {
                             listBox.Items.Add(game.GameInfo.Name);
                         }
@@ -815,11 +857,11 @@ namespace PvzLauncherRemake.Pages
                             {
                                 originGameName = listBox.SelectedItem.ToString()!;
 
-                                if (Directory.Exists(Path.Combine(AppGlobals.GameDirectory, originGameName, ".save")))
+                                if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, originGameName, ".save")))
                                 {
 
                                     var targetListBox = new ListBox { Margin = new Thickness(0, 20, 0, 0) };
-                                    foreach (var game in AppGlobals.GameList)
+                                    foreach (var game in AppGlobals.Indexes.GameList)
                                     {
                                         if (game.GameInfo.Name != originGameName)
                                             targetListBox.Items.Add(game.GameInfo.Name);
@@ -878,12 +920,12 @@ namespace PvzLauncherRemake.Pages
 
                                                 await Task.Run(() =>
                                                 {
-                                                    if (Directory.Exists(Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save")))
-                                                        Directory.Delete(Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"), true);
+                                                    if (Directory.Exists(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save")))
+                                                        Directory.Delete(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"), true);
                                                     else
-                                                        Directory.CreateDirectory(Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"));
+                                                        Directory.CreateDirectory(Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"));
                                                 });
-                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.GameDirectory, originGameName, ".save"), Path.Combine(AppGlobals.GameDirectory, targetGameName, ".save"));
+                                                await DirectoryManager.CopyDirectoryAsync(Path.Combine(AppGlobals.Directories.GameDirectory, originGameName, ".save"), Path.Combine(AppGlobals.Directories.GameDirectory, targetGameName, ".save"));
 
                                                 SnackbarManager.Show(new SnackbarContent
                                                 {

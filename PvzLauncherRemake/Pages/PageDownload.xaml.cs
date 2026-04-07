@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Pages
 {
@@ -40,7 +40,7 @@ namespace PvzLauncherRemake.Pages
                     Margin = new Thickness(0, 0, 0, 5)
                 };
                 card.MouseUp += UserCard_Click;
-                logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
+
                 stackPanel.Children.Add(card);
             }
         }
@@ -65,7 +65,7 @@ namespace PvzLauncherRemake.Pages
                     Margin = new Thickness(0, 0, 0, 5)
                 };
                 card.MouseUp += UserCard_Click;
-                logger.Info($"[下载] 添加修改器卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
+
                 stackPanel.Children.Add(card);
             }
         }
@@ -91,36 +91,36 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[下载] 开始初始化...");
+
                 StartLoad();
 
-                if (AppGlobals.DownloadIndex == null)
+                if (AppGlobals.Indexes.DownloadIndex == null)
                 {
                     using (var client = new HttpClient())
                     {
-                        string indexString = await client.GetStringAsync(AppGlobals.DownloadIndexUrl);
-                        logger.Info($"[下载] 获取下载索引: {indexString}");
-                        AppGlobals.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
+                        string indexString = await client.GetStringAsync(AppGlobals.Urls.DownloadIndexUrl);
+
+                        AppGlobals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
                     }
                 }
 
                 //中文原版
-                logger.Info($"[下载] 开始加载中文原版游戏列表");
+
                 stackPanel_zhOrigin.Children.Clear();
                 stackPanel_zhRevision.Children.Clear();
                 stackPanel_enOrigin.Children.Clear();
                 stackPanel_enRevision.Children.Clear();
                 stackPanel_trainer.Children.Clear();
 
-                AddGameCard(stackPanel_zhOrigin, AppGlobals.DownloadIndex.ZhOrigin);
-                AddGameCard(stackPanel_zhRevision, AppGlobals.DownloadIndex.ZhRevision);
-                AddGameCard(stackPanel_enOrigin, AppGlobals.DownloadIndex.EnOrigin);
-                AddGameCard(stackPanel_enRevision, AppGlobals.DownloadIndex.EnRevision);
-                AddTrainerCard(stackPanel_trainer, AppGlobals.DownloadIndex.Trainer);
+                AddGameCard(stackPanel_zhOrigin, AppGlobals.Indexes.DownloadIndex.ZhOrigin);
+                AddGameCard(stackPanel_zhRevision, AppGlobals.Indexes.DownloadIndex.ZhRevision);
+                AddGameCard(stackPanel_enOrigin, AppGlobals.Indexes.DownloadIndex.EnOrigin);
+                AddGameCard(stackPanel_enRevision, AppGlobals.Indexes.DownloadIndex.EnRevision);
+                AddTrainerCard(stackPanel_trainer, AppGlobals.Indexes.DownloadIndex.Trainer);
 
                 EndLoad();
 
-                logger.Info($"[下载] 结束初始化");
+
             }
             catch (Exception ex)
             {
@@ -188,8 +188,8 @@ namespace PvzLauncherRemake.Pages
             bool isTrainer = userCard.AttachedProperty.ToString() == "Trainer";
             var info = isTrainer ? (JsonDownloadIndex.TrainerInfo)userCard.Tag! : (JsonDownloadIndex.GameInfo)userCard.Tag!;
             string baseDirectory =
-                isTrainer ? AppGlobals.TrainerDirectory :
-                AppGlobals.GameDirectory;
+                isTrainer ? AppGlobals.Directories.TrainerDirectory :
+                AppGlobals.Directories.GameDirectory;
 
 
             this.NavigationService?.Navigate(new PageDownloadDetail
@@ -207,7 +207,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 //检测有无内容
-                if (stackPanel_enOrigin.Children.Count <= 0 || stackPanel_enRevision.Children.Count <= 0 || stackPanel_trainer.Children.Count <= 0 || stackPanel_zhOrigin.Children.Count <= 0 || stackPanel_zhRevision.Children.Count <= 0) 
+                if (stackPanel_enOrigin.Children.Count <= 0 || stackPanel_enRevision.Children.Count <= 0 || stackPanel_trainer.Children.Count <= 0 || stackPanel_zhOrigin.Children.Count <= 0 || stackPanel_zhRevision.Children.Count <= 0)
                     return;
 
                 stackPanel_Search.Children.Clear();

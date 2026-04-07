@@ -1,7 +1,6 @@
 ﻿using ModernWpf.Controls;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
-using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.Diagnostics;
@@ -27,7 +26,7 @@ namespace PvzLauncherRemake.Pages
         public bool IsTrainer { get; set; }
         private bool IsLink;
 
-        private string ScreeshotRootUrl = $"{AppGlobals.ServiceRootUrl}/game-library/screenshots";
+        private string ScreeshotRootUrl = $"{AppGlobals.Urls.ServiceRootUrl}/game-library/screenshots";
 
         #region image
         private void ImageMouseEnter(object sender)

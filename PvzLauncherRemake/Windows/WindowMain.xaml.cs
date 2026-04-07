@@ -16,7 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using Wpf.Ui;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Windows
 {
@@ -47,10 +47,10 @@ namespace PvzLauncherRemake.Windows
                 }
 
                 //注册事件
-                logger.Info($"[主窗口] 注册窗口大小改变事件...");
+
                 this.SizeChanged += ((sender, e) =>
                 {
-                    logger.Info($"[主窗口] 窗口大小改变:  Width: {this.Width}  Height: {this.Height}");
+
                     AppGlobals.Config.WindowSize = new JsonConfig.WindowSize { Width = this.Width, Height = this.Height };
                     ConfigManager.SaveConfig();
                 });
@@ -59,13 +59,12 @@ namespace PvzLauncherRemake.Windows
                 void AddType(Type t)
                 {
                     PageMap.Add($"{t.Name}", t);
-                    logger.Info($"[主窗口] 预加载Page: {t.Name}");
+
                 }
                 AddType(typeof(PageLaunch));
                 AddType(typeof(PageManage));
                 AddType(typeof(PageDownload));
 
-                AddType(typeof(PageHelp));
                 AddType(typeof(PageTask));
                 AddType(typeof(PageSettings));
                 AddType(typeof(PageAbout));
@@ -84,7 +83,7 @@ namespace PvzLauncherRemake.Windows
                 _snackbarService = new SnackbarService();
                 _snackbarService.SetSnackbarPresenter(snackbarPersenter);
 
-                logger.Info($"[主窗口] 构造完毕!");
+
             }
             catch (Exception ex)
             {
@@ -96,9 +95,9 @@ namespace PvzLauncherRemake.Windows
         {
             try
             {
-                logger.Info($"[主窗口] 开始初始化...");
 
-                logger.Info($"[主窗口] 处理启动参数");
+
+
 
                 //是否CI构建
 #if CI
@@ -114,7 +113,7 @@ namespace PvzLauncherRemake.Windows
                 string[] args = Environment.GetCommandLineArgs();
                 foreach (var arg in args)
                 {
-                    logger.Info($"[主窗口] 传入的参数: {arg}");
+
                     switch (arg)
                     {
                         //外壳启动
@@ -128,12 +127,12 @@ namespace PvzLauncherRemake.Windows
 
 
 
-                logger.Info($"[主窗口] {new string('=', 10)}启动参数配置{new string('=', 10)}");
-                logger.Info($"[主窗口] isShell={AppGlobals.Arguments.isShell}");
-                logger.Info($"[主窗口] isUpdate={AppGlobals.Arguments.isUpdate}");
-                logger.Info($"[主窗口] ");
-                logger.Info($"[主窗口] IsCIBuild={AppGlobals.Arguments.isCIBuild}");
-                logger.Info($"[主窗口] {new string('=', 30)}");
+
+
+
+
+
+
 
                 //参数检测
                 if (!AppGlobals.Arguments.isShell && !Debugger.IsAttached)//是否外壳启动
@@ -150,7 +149,7 @@ namespace PvzLauncherRemake.Windows
                         //Primary=>改用外壳启动
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = System.IO.Path.Combine(AppGlobals.RootDirectory, "PvzLauncher.exe"),
+                            FileName = System.IO.Path.Combine(AppGlobals.Directories.RootDirectory, "PvzLauncher.exe"),
                             UseShellExecute = true
                         });
                         Environment.Exit(0);
@@ -194,7 +193,7 @@ namespace PvzLauncherRemake.Windows
                 //EULA检测
                 if (!AppGlobals.Config.Eula)
                 {
-                    string eulaPath = Path.Combine(AppGlobals.ExecuteDirectory, "Resources", "Documents", "EULA.md");
+                    string eulaPath = Path.Combine(AppGlobals.Directories.ExecuteDirectory, "Resources", "Documents", "EULA.md");
                     string eulaText = $"无法加载{eulaPath}";
                     eulaText = await File.ReadAllTextAsync(eulaPath);
 
@@ -224,7 +223,7 @@ namespace PvzLauncherRemake.Windows
                 //检查更新
                 if (AppGlobals.Config.Settings.LauncherConfig.StartUpCheckUpdate)
                 {
-                    logger.Info($"[主窗口] 检测更新");
+
                     await Updater.CheckUpdate(null!, true);
                 }
 
@@ -233,11 +232,11 @@ namespace PvzLauncherRemake.Windows
 
 
                 //公告获取
-                if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled)
+                if (AppGlobals.Config.Settings.LauncherConfig.NoticeEnabled && !AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
                 {
                     JsonNoticeIndex.Index noticeIndex;
                     using (var client = new HttpClient())
-                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.NoticeIndexUrl));
+                        noticeIndex = Json.ReadJson<JsonNoticeIndex.Index>(await client.GetStringAsync(AppGlobals.Urls.NoticeIndexUrl));
 
                     foreach (var notice in noticeIndex.Notices)
                     {
@@ -301,7 +300,7 @@ namespace PvzLauncherRemake.Windows
                 }
 
 
-                logger.Info($"[主窗口] 完成初始化!");
+
             }
             catch (Exception ex)
             {
@@ -320,7 +319,7 @@ namespace PvzLauncherRemake.Windows
             {
                 if (navView.SelectedItem is NavigationViewItem item)
                 {
-                    logger.Info($"[主窗口] 选择标签页: {item.Tag}");
+
 
                     frame.Navigate(PageMap[$"Page{item.Tag}"], null, FrameAnimation);
                 }

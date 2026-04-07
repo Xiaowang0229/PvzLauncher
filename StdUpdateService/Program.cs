@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.IO.Compression;
-using System.Reflection;
 
 namespace StdUpdateService
 {
@@ -12,6 +11,7 @@ namespace StdUpdateService
         private static string? ShellPath;
         private static string? ExePath;
         private static bool isSelfUpdate = false;
+        private static bool isTest = false;
 
 
         static async Task Main(string[] args)
@@ -48,8 +48,19 @@ namespace StdUpdateService
                         case "-selfupdate":
                             isSelfUpdate = true;
                             break;
+                        case "-test":
+                            isTest = true;
+                            break;
                     }
                 }
+                //测试
+                if (isTest)
+                {
+                    Console.Write("done");
+                    return;
+                }
+
+
 
                 if (string.IsNullOrEmpty(BinPack) ||
                     string.IsNullOrEmpty(ShellPack) ||

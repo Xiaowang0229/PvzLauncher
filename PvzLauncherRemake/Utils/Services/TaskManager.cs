@@ -6,7 +6,7 @@ using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Utils.Services
 {
@@ -58,7 +58,7 @@ namespace PvzLauncherRemake.Utils.Services
                         return;
                     }
 
-                    logger.Info($"[任务中心] 任务 {taskInfo.TaskName} 完成下载");
+
 
                     await Task.Delay(1000);
 
@@ -71,7 +71,7 @@ namespace PvzLauncherRemake.Utils.Services
                         CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
                         {
                             taskInfo.ExtractProgress = p;
-                            logger.Info($"{p}");
+
                         }));
                     });
 

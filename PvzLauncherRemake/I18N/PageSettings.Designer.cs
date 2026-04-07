@@ -133,6 +133,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 双击 的本地化字符串。
+        /// </summary>
+        public static string DoubleClick {
+            get {
+                return ResourceManager.GetString("DoubleClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 下载缓存: 的本地化字符串。
         /// </summary>
         public static string DownloadCache {
@@ -183,6 +192,24 @@ namespace PvzLauncherRemake.I18N {
         public static string ForceFullScreen {
             get {
                 return ResourceManager.GetString("ForceFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 强制禁用 的本地化字符串。
+        /// </summary>
+        public static string ForceOff {
+            get {
+                return ResourceManager.GetString("ForceOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 强制启用 的本地化字符串。
+        /// </summary>
+        public static string ForceOn {
+            get {
+                return ResourceManager.GetString("ForceOn", resourceCulture);
             }
         }
         
@@ -318,6 +345,15 @@ namespace PvzLauncherRemake.I18N {
         public static string Location {
             get {
                 return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 管理页选择模式: 的本地化字符串。
+        /// </summary>
+        public static string ManageSelectMode {
+            get {
+                return ResourceManager.GetString("ManageSelectMode", resourceCulture);
             }
         }
         
@@ -475,6 +511,15 @@ namespace PvzLauncherRemake.I18N {
         }
         
         /// <summary>
+        ///   查找类似 单击 的本地化字符串。
+        /// </summary>
+        public static string SingleClick {
+            get {
+                return ResourceManager.GetString("SingleClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 启动时检查更新: 的本地化字符串。
         /// </summary>
         public static string StartUpCheck {
@@ -516,6 +561,15 @@ namespace PvzLauncherRemake.I18N {
         public static string Theme_Light {
             get {
                 return ResourceManager.GetString("Theme_Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 3D加速: 的本地化字符串。
+        /// </summary>
+        public static string ThreeDMode {
+            get {
+                return ResourceManager.GetString("ThreeDMode", resourceCulture);
             }
         }
         

@@ -282,4 +282,22 @@
   <data name="OverlayUI" xml:space="preserve">
     <value>Внутриигровой оверлейный интерфейс (тест)</value>
   </data>
+  <data name="ThreeDMode" xml:space="preserve">
+    <value>3D-ускорение:</value>
+  </data>
+  <data name="ForceOn" xml:space="preserve">
+    <value>Принудительное включение</value>
+  </data>
+  <data name="ForceOff" xml:space="preserve">
+    <value>Принудительное отключение</value>
+  </data>
+  <data name="SingleClick" xml:space="preserve">
+    <value>щелкнуть</value>
+  </data>
+  <data name="DoubleClick" xml:space="preserve">
+    <value>двойной щелчок</value>
+  </data>
+  <data name="ManageSelectMode" xml:space="preserve">
+    <value>Режим выбора страницы управления:</value>
+  </data>
 </root>

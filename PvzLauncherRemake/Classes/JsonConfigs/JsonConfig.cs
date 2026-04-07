@@ -45,6 +45,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("launch_with_trainer")]
             public bool LaunchWithTrainer { get; set; } = false;
 
+            [JsonProperty("manage_select_mode")]
+            public string ManageSelectMode { get; set; } = "Single";
+
             [JsonProperty("theme")]
             public string Theme { get; set; } = "Light";
 
@@ -66,8 +69,8 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             [JsonProperty("navigation_view_align")]
             public string NavigationViewAlign { get; set; } = "Top";
 
-            [JsonProperty("echo_cave_enabled")]
-            public bool EchoCaveEnabled { get; set; } = true;
+            /*[JsonProperty("echo_cave_enabled")]
+            public bool EchoCaveEnabled { get; set; } = true;*/
 
             [JsonProperty("notice_enabled")]
             public bool NoticeEnabled { get; set; } = true;
@@ -79,7 +82,7 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
             public bool OfflineMode { get; set; } = false;
 
             [JsonProperty("update_channel")]
-            public string UpdateChannel { get; set; } = "Stable";
+            public string UpdateChannel { get; set; } = AppGlobals.IsStable ? "Stable" : "Development";
 
             [JsonProperty("start_up_check_update")]
             public bool StartUpCheckUpdate { get; set; } = true;
@@ -110,6 +113,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
 
             [JsonProperty("start_up_location")]
             public string StartUpLocation { get; set; } = "Default";
+
+            [JsonProperty("3d_mode")]
+            public string ThreeDMode { get; set; } = "Default";
 
             [JsonProperty("window_title")]
             public string WindowTitle { get; set; } = "";

@@ -33,14 +33,14 @@ namespace PvzLauncherRemake.Windows
         private void Timer_Tick(object? sender, EventArgs e)
         {
             //如游戏退出或进程信息为空则关闭覆盖界面
-            if (!GameManager.IsGameRuning || AppProcess.Process == null || AppProcess.Process.HasExited)
+            if (!GameManager.IsGameRuning || GameManager.GameProcess == null || GameManager.GameProcess.HasExited)
                 this.Close();
 
-            AppProcess.Process!.Refresh();
+            GameManager.GameProcess!.Refresh();
 
 
             //同步窗口位置
-            var result = Win32APIHelper.GetWindowArea(AppProcess.Process!.MainWindowHandle);
+            var result = Win32APIHelper.GetWindowArea(GameManager.GameProcess!.MainWindowHandle);
 
             this.Left = result.Left;
             this.Top = result.Top;
@@ -50,7 +50,7 @@ namespace PvzLauncherRemake.Windows
 
             //判断是否失焦
             var activeWindow = Win32APIHelper.GetActiveWindowHandle();
-            if (activeWindow != AppProcess.Process.MainWindowHandle && activeWindow != windowInteropHelper.Handle)
+            if (activeWindow != GameManager.GameProcess.MainWindowHandle && activeWindow != windowInteropHelper.Handle)
                 ToggleOverlay(false);
 
             //更新时间
