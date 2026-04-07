@@ -47,7 +47,7 @@ namespace ExecuteShell.Windows
             {
                 //设置穿透
                 IntPtr hWnd = new WindowInteropHelper(this).Handle;
-                if (hWnd != IntPtr.Zero) 
+                if (hWnd != IntPtr.Zero)
                 {
                     int extendedStyle = WinAPIHelper.GetWindowLong(hWnd, WinAPIHelper.GWL_EXSTYLE);
 

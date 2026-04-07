@@ -11,7 +11,7 @@ using System.IO;
 using System.Net.Http;
 using System.Windows.Controls;
 using System.Windows.Media;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Utils.Services
 {
@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
-            logger.Info($"[更新器] 开始检测更新");
+
 
             if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
             {
@@ -44,20 +44,9 @@ namespace PvzLauncherRemake.Utils.Services
                 });
                 return;
             }
-            if (AppGlobals.Arguments.isLongTimeSupport)
-            {
-                await DialogManager.ShowDialogAsync(new ContentDialog
-                {
-                    Title = "更新不可用",
-                    Content = "您目前使用的是长期支持版本，不接受新版本的更新。因此更新功能被禁用。",
-                    PrimaryButtonText = "确定",
-                    DefaultButton = ContentDialogButton.Primary
-                });
-                return;
-            }
 
             //检查服务可用性
-            if(!await CheckService())
+            if (!await CheckService())
             {
                 var result = await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -80,11 +69,11 @@ namespace PvzLauncherRemake.Utils.Services
 
             //获取主索引
             string indexString = await Client.GetStringAsync(AppGlobals.Urls.UpdateIndexUrl);
-            logger.Info($"[更新器] 获取更新索引: {indexString}");
+
             UpdateIndex = Json.ReadJson<JsonUpdateIndex.Index>(indexString);
 
             //判断更新通道
-            logger.Info($"[更新器] 当前更新通道: {AppGlobals.Config.Settings.LauncherConfig.UpdateChannel}");
+
             switch (AppGlobals.Config.Settings.LauncherConfig.UpdateChannel)
             {
                 case "Stable":
@@ -111,13 +100,13 @@ namespace PvzLauncherRemake.Utils.Services
                     });
                     return;
             }
-            logger.Info($"[更新器] 最新版本: {LatestVersion}  更新文件Url: {Url}  ShellUrl: {UrlShell}");
+
 
             //判断版本
-            logger.Info($"[更新器] 当前版本: {AppGlobals.Version}");
+
             if (AppGlobals.Version != LatestVersion)
             {
-                logger.Info($"[更新器] 检测到更新，开始更新");
+
 
                 FlowDocumentScrollViewer docViewer = new FlowDocumentScrollViewer
                 {
@@ -135,11 +124,11 @@ namespace PvzLauncherRemake.Utils.Services
                     PrimaryButtonText = "立即更新",
                     CloseButtonText = "取消更新",
                     DefaultButton = ContentDialogButton.Primary
-                }, (() => { isUpdate = true; logger.Info($"[更新器] 用户取消更新"); }));
+                }, (() => { isUpdate = true; }));
             }
             else
             {
-                logger.Info($"[更新器] 无可用更新");
+
                 if (!isStartUp)
                     await DialogManager.ShowDialogAsync(new ContentDialog
                     {
@@ -154,11 +143,11 @@ namespace PvzLauncherRemake.Utils.Services
             //不更新直接return
             if (!isUpdate)
             {
-                logger.Info($"[更新器] 更新结束");
+
                 return;
             }
 
-            logger.Info($"[更新器] 准备更新...");
+
 
             //开始更新
             bool? done = null;
@@ -183,7 +172,7 @@ namespace PvzLauncherRemake.Utils.Services
                 Progress = ((p, s) =>
                 {
                     progressCallback?.Invoke(p, s);
-                    logger.Info($"[更新器] 下载更新文件: {Math.Round(p, 2)}  ({Math.Round(s / 1024, 2)}MB/s)");
+
                 })
             };
             var downloaderShell = new Downloader
@@ -203,25 +192,25 @@ namespace PvzLauncherRemake.Utils.Services
                 Progress = ((p, s) =>
                 {
                     progressCallback?.Invoke(p, s);
-                    logger.Info($"[更新器] 下载更新文件: {Math.Round(p, 2)}  ({Math.Round(s / 1024, 2)}MB/s)");
+
                 })
             };
-            logger.Info($"[更新器] 开始下载更新文件");
+
 
             downloader.StartDownload();
             downloaderShell.StartDownload();
 
             //等待下载完毕
-            while (done == null || doneShell == null) 
+            while (done == null || doneShell == null)
                 await Task.Delay(1000);
 
-            logger.Info($"[更新器] 下载完成");
+
             //如下载失败抛错误
             if (done == false)
                 throw new Exception(errorMessage);
             //下载成功↓
             //运行更新服务
-            logger.Info($"[更新器] 下载完成，运行更新服务");
+
             if (File.Exists(Path.Combine(AppGlobals.Directories.ExecuteDirectory, "StdUpdateService.exe")))
             {
                 Process.Start(new ProcessStartInfo

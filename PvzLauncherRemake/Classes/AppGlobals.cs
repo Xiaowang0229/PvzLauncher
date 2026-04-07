@@ -21,7 +21,7 @@ namespace PvzLauncherRemake.Classes
             public static readonly string TempDiectory = Path.GetTempPath();//临时文件夹
             public static readonly string SaveDirectory = @"C:\ProgramData\PopCap Games\PlantsVsZombies\userdata";//存档文件夹
         }
-        
+
         //特殊
         public static class Indexes
         {
@@ -30,7 +30,7 @@ namespace PvzLauncherRemake.Classes
 
             public static JsonDownloadIndex.Index? DownloadIndex = null;//下载索引
         }
-        
+
         //字符串
         public static class Urls
         {
@@ -39,7 +39,7 @@ namespace PvzLauncherRemake.Classes
             public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
             public static readonly string NoticeIndexUrl = $"{ServiceRootUrl}/notice/index.json";//公告索引
         }
-        
+
         //启动参数配置
         public static class Arguments
         {

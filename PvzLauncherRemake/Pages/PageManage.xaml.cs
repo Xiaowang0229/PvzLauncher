@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Pages
 {
@@ -63,22 +63,22 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[管理] 开始初始化...");
+
                 StartLoad();
 
                 //清理
                 stackPanel_Game.Children.Clear();
                 stackPanel_Trainer.Children.Clear();
                 //加载列表
-                logger.Info($"[管理] 开始加载游戏列表");
+
                 await GameManager.LoadGameListAsync();
                 await GameManager.LoadTrainerListAsync();
-                logger.Info($"[管理] 游戏列表加载完毕");
+
 
                 //游戏库里有东西才加
                 if (AppGlobals.Indexes.GameList.Count > 0)
                 {
-                    logger.Info($"[管理] 开始添加卡片");
+
                     //添加卡片
                     foreach (var game in AppGlobals.Indexes.GameList)
                     {
@@ -95,14 +95,14 @@ namespace PvzLauncherRemake.Pages
                         };
                         card.MouseLeftButtonUp += SelectGame;
                         card.MouseRightButtonUp += SetGame;
-                        logger.Info($"[管理] 添加游戏: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
+
                         stackPanel_Game.Children.Add(card);//添加
 
                     }
                 }
                 else
                 {
-                    logger.Warn($"[管理] 在游戏库内未发现任何游戏");
+
                     AppGlobals.Config.CurrentGame = null!;
                 }
 
@@ -110,7 +110,7 @@ namespace PvzLauncherRemake.Pages
                 //游戏库里有东西才加
                 if (AppGlobals.Indexes.TrainerList.Count > 0)
                 {
-                    logger.Info($"[管理] 添加修改器列表");
+
                     //添加卡片
                     foreach (var trainer in AppGlobals.Indexes.TrainerList)
                     {
@@ -127,21 +127,21 @@ namespace PvzLauncherRemake.Pages
                         };
                         card.MouseLeftButtonUp += SelectTrainer;
                         card.MouseRightButtonUp += SetTrainer;
-                        logger.Info($"[管理] 添加修改器: Title=\"{card.Title}\"  Icon=\"{card.Icon}\"  isCurrent=\"{card.isActive}\"  Version=\"{card.Version}\"");
+
                         stackPanel_Trainer.Children.Add(card);//添加
 
                     }
                 }
                 else
                 {
-                    logger.Warn($"[管理] 未发现任何修改器");
+
                     AppGlobals.Config.CurrentTrainer = null!;
                 }
 
                 SetNoneTipVisb();
 
                 EndLoad();
-                logger.Info($"[管理] ");
+
             }
             catch (Exception ex)
             {
@@ -223,7 +223,7 @@ namespace PvzLauncherRemake.Pages
 
                 AppGlobals.Config.CurrentGame = $"{((UserCard)sender).Title}";
                 ConfigManager.SaveConfig();
-                logger.Info($"[管理] 选择游戏: {AppGlobals.Config.CurrentGame}");
+
             }
             catch (Exception ex)
             {
@@ -258,7 +258,7 @@ namespace PvzLauncherRemake.Pages
 
                 AppGlobals.Config.CurrentTrainer = $"{((UserCard)sender).Title}";
                 ConfigManager.SaveConfig();
-                logger.Info($"[管理] 选择修改器: {AppGlobals.Config.CurrentTrainer}");
+
             }
             catch (Exception ex)
             {
@@ -286,7 +286,7 @@ namespace PvzLauncherRemake.Pages
             {
                 var trainerConfig = (JsonTrainerInfo.Index)(((UserCard)sender).Tag);
 
-                logger.Info($"[管理: 修改器设置] 开始设置修改器");
+
                 //控件
                 var buttonDelete = new Button
                 {
@@ -376,7 +376,7 @@ namespace PvzLauncherRemake.Pages
                 //删除
                 buttonDelete!.Click += (async (s, e) =>
                 {
-                    logger.Info($"[管理: 修改器设置] 开始删除修改器");
+
                     dialog.Hide();
 
                     await DialogManager.ShowDialogAsync(new ContentDialog
@@ -388,10 +388,10 @@ namespace PvzLauncherRemake.Pages
                         DefaultButton = ContentDialogButton.Close
                     }, (async () =>
                     {
-                        logger.Info($"[管理: 修改器设置] 用户同意删除，开始删除...");
+
 
                         await Task.Run(() => Directory.Delete(Path.Combine(AppGlobals.Directories.TrainerDirectory, trainerConfig.Name), true));
-                        logger.Info($"[管理: 修改器设置] 删除完毕");
+
                         await GameManager.LoadTrainerListAsync();
 
                         if (AppGlobals.Indexes.TrainerList.Count > 0 && AppGlobals.Config.CurrentTrainer == trainerConfig.Name)
@@ -417,7 +417,7 @@ namespace PvzLauncherRemake.Pages
                 //重命名
                 buttonRename!.Click += (async (s, e) =>
                 {
-                    logger.Info($"[管理: 修改器设置] 开始重命名...");
+
                     dialog.Hide();
                     var textBox = new TextBox
                     {
@@ -448,7 +448,7 @@ namespace PvzLauncherRemake.Pages
                                     Type = SnackbarType.Success
                                 });
 
-                                logger.Info($"[管理: 修改器设置] 更名成功: {trainerConfig.Name}");
+
 
                                 if (AppGlobals.Config.CurrentTrainer == lastName)
                                     AppGlobals.Config.CurrentTrainer = trainerConfig.Name;
@@ -457,7 +457,7 @@ namespace PvzLauncherRemake.Pages
                             }
                             else
                             {
-                                logger.Info($"[管理: 修改器设置] {textBox.Text} 在库内已有相同名称，操作取消");
+
                                 SnackbarManager.Show(new SnackbarContent
                                 {
                                     Title = "更名失败",
@@ -468,7 +468,7 @@ namespace PvzLauncherRemake.Pages
                         }
                         else
                         {
-                            logger.Info($"[管理: 修改器设置] 用户输入为空，操作取消");
+
                             SnackbarManager.Show(new SnackbarContent
                             {
                                 Title = "更名失败",

@@ -2,7 +2,7 @@
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using System.IO;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Utils.Configuration
 {
@@ -16,18 +16,7 @@ namespace PvzLauncherRemake.Utils.Configuration
             SaveConfig();
         }
 
-        public static void SaveConfig()
-        {
-            try
-            {
-                Json.WriteJson(ConfigPath, AppGlobals.Config);
-                logger.Info("[配置管理器] 配置保存成功");
-            }
-            catch (Exception ex)
-            {
-                logger.Error($"[配置管理器] 保存配置失败！异常: {ex.Message}");
-            }
-        }
+        public static void SaveConfig() => Json.WriteJson(ConfigPath, AppGlobals.Config);
 
         public static void LoadConfig()
         {
@@ -36,23 +25,22 @@ namespace PvzLauncherRemake.Utils.Configuration
                 if (!File.Exists(ConfigPath))
                 {
                     CreateDefaultConfig();
-                    logger.Info("[配置管理器] 未找到配置文件，已创建默认配置");
+
                     return;
                 }
 
                 var config = Json.ReadJson<JsonConfig.Index>(ConfigPath);
                 if (config == null)
                 {
-                    logger.Warn("[配置管理器] 配置文件读取结果为 null，使用默认配置");
+
                     CreateDefaultConfig();
                     return;
                 }
                 AppGlobals.Config = config;
-                logger.Info("[配置管理器] 配置加载成功");
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Error($"[配置管理器] 读取配置文件失败，使用默认配置。异常: {ex.Message}");
                 CreateDefaultConfig();
             }
         }

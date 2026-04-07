@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Pages
 {
@@ -40,7 +40,7 @@ namespace PvzLauncherRemake.Pages
                     Margin = new Thickness(0, 0, 0, 5)
                 };
                 card.MouseUp += UserCard_Click;
-                logger.Info($"[下载] 添加游戏卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
+
                 stackPanel.Children.Add(card);
             }
         }
@@ -65,7 +65,7 @@ namespace PvzLauncherRemake.Pages
                     Margin = new Thickness(0, 0, 0, 5)
                 };
                 card.MouseUp += UserCard_Click;
-                logger.Info($"[下载] 添加修改器卡片: Title: {card.Title} | Icon: {card.Icon} | Version: {card.Version}");
+
                 stackPanel.Children.Add(card);
             }
         }
@@ -91,7 +91,7 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[下载] 开始初始化...");
+
                 StartLoad();
 
                 if (AppGlobals.Indexes.DownloadIndex == null)
@@ -99,13 +99,13 @@ namespace PvzLauncherRemake.Pages
                     using (var client = new HttpClient())
                     {
                         string indexString = await client.GetStringAsync(AppGlobals.Urls.DownloadIndexUrl);
-                        logger.Info($"[下载] 获取下载索引: {indexString}");
+
                         AppGlobals.Indexes.DownloadIndex = Json.ReadJson<JsonDownloadIndex.Index>(indexString);
                     }
                 }
 
                 //中文原版
-                logger.Info($"[下载] 开始加载中文原版游戏列表");
+
                 stackPanel_zhOrigin.Children.Clear();
                 stackPanel_zhRevision.Children.Clear();
                 stackPanel_enOrigin.Children.Clear();
@@ -120,7 +120,7 @@ namespace PvzLauncherRemake.Pages
 
                 EndLoad();
 
-                logger.Info($"[下载] 结束初始化");
+
             }
             catch (Exception ex)
             {
@@ -207,7 +207,7 @@ namespace PvzLauncherRemake.Pages
             try
             {
                 //检测有无内容
-                if (stackPanel_enOrigin.Children.Count <= 0 || stackPanel_enRevision.Children.Count <= 0 || stackPanel_trainer.Children.Count <= 0 || stackPanel_zhOrigin.Children.Count <= 0 || stackPanel_zhRevision.Children.Count <= 0) 
+                if (stackPanel_enOrigin.Children.Count <= 0 || stackPanel_enRevision.Children.Count <= 0 || stackPanel_trainer.Children.Count <= 0 || stackPanel_zhOrigin.Children.Count <= 0 || stackPanel_zhRevision.Children.Count <= 0)
                     return;
 
                 stackPanel_Search.Children.Clear();

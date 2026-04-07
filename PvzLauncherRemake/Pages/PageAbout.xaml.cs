@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Classes.AppLogger;
 
 namespace PvzLauncherRemake.Pages
 {
@@ -85,7 +84,6 @@ namespace PvzLauncherRemake.Pages
         {
             if (sender is Button button)
             {
-                logger.Info($"[关于] 跳转Url => {button.Tag}");
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = button.Tag.ToString(),
@@ -94,18 +92,9 @@ namespace PvzLauncherRemake.Pages
             }
         }
 
-        public void GoToHelpCenter(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                this.NavigationService.Navigate(new PageHelp());
-            }
-        }
-
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _eggCount++;
-            logger.Info($"[关于] 触发彩蛋，当前点击次数: {_eggCount}");
 
             foreach (var (clicks, title, message, type, action) in EasterEggs)
             {
@@ -127,8 +116,6 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[关于] 用户尝试进入控制台");
-
                 if (Debugger.IsAttached)
                 {
                     SnackbarManager.Show(new SnackbarContent
@@ -236,7 +223,7 @@ namespace PvzLauncherRemake.Pages
             {
                 int temp = new Random().Next(1, 1);
 
-                var result= await DialogManager.ShowDialogAsync(new ContentDialog
+                var result = await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "警告",
                     Content = "按钮上明明写着 \"千万别点\"，但你还是点了。本软件不对接下来发生的事负责。请确认",
@@ -250,7 +237,7 @@ namespace PvzLauncherRemake.Pages
                 switch (temp)
                 {
                     case 1:
-                        while(true)
+                        while (true)
                         {
                             int maxWidth = (int)SystemParameters.PrimaryScreenWidth;
                             int maxHeight = (int)SystemParameters.PrimaryScreenHeight;
@@ -262,9 +249,6 @@ namespace PvzLauncherRemake.Pages
 
                             win.Left = new Random().Next(0, (int)(maxWidth - win.Width));
                             win.Top = new Random().Next(0, (int)(maxHeight - win.Height));
-
-                            
-
 
                             await Task.Delay(1);
                         }

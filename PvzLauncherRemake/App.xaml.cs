@@ -88,7 +88,6 @@ namespace PvzLauncherRemake
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            AppLogger.logger.Warn($"[应用程序] 应用程序{(e.ApplicationExitCode != 0 ? "非" : null)}正常退出(ExitCode: {e.ApplicationExitCode})");
         }
 
         private void OnThemeChanged(object sender, EventArgs e)

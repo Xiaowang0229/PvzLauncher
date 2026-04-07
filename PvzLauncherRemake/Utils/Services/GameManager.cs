@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Utils.Services
 {
@@ -29,7 +29,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns>无</returns>
         public static async Task LoadGameListAsync()
         {
-            logger.Info("[游戏管理器] 开始加载游戏版本列表");
+
 
             var validGames = new List<JsonGameInfo.Index>();
 
@@ -54,17 +54,17 @@ namespace PvzLauncherRemake.Utils.Services
                     }
                     else
                     {
-                        logger.Warn($"[游戏管理器] 配置文件为空 {configPath}");
+
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    logger.Error($"[游戏管理器] 读取游戏配置文件失败，已跳过: {configPath}\n{ex.Message}");
+
                 }
             }
 
             AppGlobals.Indexes.GameList = validGames;
-            logger.Info($"[游戏管理器] 加载游戏版本完成，共 {AppGlobals.Indexes.GameList.Count} 个有效版本");
+
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// <returns>无</returns>
         public static async Task LoadTrainerListAsync()
         {
-            logger.Info("[游戏管理器] 开始加载修改器版本列表");
+
 
             var validTrainers = new List<JsonTrainerInfo.Index>();
 
@@ -91,17 +91,17 @@ namespace PvzLauncherRemake.Utils.Services
                     }
                     else
                     {
-                        logger.Warn($"[游戏管理器] 配置文件为空 {configPath}");
+
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    logger.Error($"[游戏管理器] 读取游戏配置文件失败，已跳过: {configPath}\n{ex.Message}");
+
                 }
             }
 
             AppGlobals.Indexes.TrainerList = validTrainers;
-            logger.Info($"[游戏管理器] 加载游戏版本完成，共 {AppGlobals.Indexes.TrainerList.Count} 个有效版本");
+
         }
 
         #endregion
@@ -125,7 +125,7 @@ namespace PvzLauncherRemake.Utils.Services
                     Title = "请选择游戏/修改器所在的文件夹"
                 };
 
-        
+
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
                 var radioButtonTrainer = new RadioButton { Content = "修改器" };
@@ -299,7 +299,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             string tempPath = Path.Combine(AppGlobals.Directories.TempDiectory, $"PVZLAUNCHER.DOWNLOAD.CACHE.{new Random().Next(Int32.MinValue, Int32.MaxValue) + new Random().Next(Int32.MinValue, Int32.MaxValue)}");
 
-            logger.Info($"[下载] 生成随机临时名: {tempPath}");
+
 
             try
             {
@@ -341,7 +341,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             //游戏exe路径
             string gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
-            logger.Info($"[游戏管理器] 设置游戏可执行文件路径: {gameExePath}");
+
             //定义Process
             AppProcess.Process = new Process
             {
@@ -352,7 +352,7 @@ namespace PvzLauncherRemake.Utils.Services
                     WorkingDirectory = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name)
                 }
             };
-            logger.Info($"[游戏管理器] 启动进程");
+
             //启动
             AppProcess.Process.Start();
 
@@ -361,7 +361,7 @@ namespace PvzLauncherRemake.Utils.Services
             IsGameRuning = true;
 
             //启动后操作
-            logger.Info($"[启动] 启动后操作为: {AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate}");
+
             switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "Close":
@@ -382,15 +382,15 @@ namespace PvzLauncherRemake.Utils.Services
 
             //启动次数
             gameInfo.Record.PlayCount++;
-            logger.Info($"[启动] 启动次数+1, 现在为： {gameInfo.Record.PlayCount}");
+
             Json.WriteJson(System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, ".pvzl.json"), gameInfo);
 
             //启动器整体次数
             AppGlobals.Config.Record.LaunchCount++;
             ConfigManager.SaveConfig();
-            logger.Info($"[启动] 启动器总体启动数: {AppGlobals.Config.Record.LaunchCount}");
 
-            logger.Info($"[启动] 启动操作完毕，等待游戏结束...");
+
+
             await WaitGameExit(gameInfo);
 
             exitCallback?.Invoke();
@@ -405,7 +405,7 @@ namespace PvzLauncherRemake.Utils.Services
 
             IsGameRuning = false;
 
-            logger.Info($"[游戏管理器] 启动后操作为: {AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate}");
+
             switch (AppGlobals.Config.Settings.LauncherConfig.LaunchedOperate)
             {
                 case "HideAndDisplay":
@@ -426,7 +426,7 @@ namespace PvzLauncherRemake.Utils.Services
         {
             if (!AppProcess.Process.HasExited)
             {
-                logger.Info($"[游戏管理器] 尝试使游戏进程自行退出");
+
                 AppProcess.Process.CloseMainWindow();
                 //等待自己关闭
                 await Task.Delay(1000);
@@ -434,7 +434,7 @@ namespace PvzLauncherRemake.Utils.Services
                 //强制关
                 if (!AppProcess.Process.HasExited)
                 {
-                    logger.Warn($"[游戏管理器] 游戏进程仍然运行，开始强制结束");
+
                     AppProcess.Process.Kill();
                     //等待完全关闭
                     await Task.Delay(1000);
@@ -443,7 +443,7 @@ namespace PvzLauncherRemake.Utils.Services
                 if (!AppProcess.Process.HasExited)
                 {
                     //都Kill()了不能再关不上吧
-                    logger.Error($"[游戏管理器] 无法终止游戏进程!");
+
                     failCallback?.Invoke();
                     return;
                 }
@@ -646,9 +646,9 @@ namespace PvzLauncherRemake.Utils.Services
                     await Task.Delay(delayMs);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Error($"窗口标题设置失败: {ex}");
+
             }
 
         }

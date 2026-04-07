@@ -1,6 +1,5 @@
 ﻿using HuaZi.Library.Json;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -11,7 +10,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 using static PvzLauncherRemake.Utils.Configuration.LocalizeManager;
 
 namespace PvzLauncherRemake.Pages
@@ -48,13 +47,13 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[游戏设置] 开始初始化...");
+
 
                 //设置卡片
                 userGameCard.Title = GameInfo.GameInfo.Name;
                 userGameCard.Version = GameInfo.GameInfo.Version;
                 userGameCard.Icon = GameIconConverter.ParseStringToGameIcons(GameInfo.GameInfo.Icon);
-                logger.Info($"[游戏设置] 传入的游戏信息: {JsonConvert.SerializeObject(GameInfo)}");
+
 
                 //判断游玩时间显示
                 string? playTimeUnit = null;
@@ -88,7 +87,7 @@ namespace PvzLauncherRemake.Pages
                     $"{GetLoc("I18N.PageManageSet", "Record_PlayTime")}: {playTimeDisply} {playTimeUnit}\n" +
                     $"{GetLoc("I18N.PageManageSet", "Record_PlayCount")}: {GameInfo.Record.PlayCount}";
 
-                logger.Info($"[游戏设置] 结束初始化");
+
             }
             catch (Exception ex)
             {

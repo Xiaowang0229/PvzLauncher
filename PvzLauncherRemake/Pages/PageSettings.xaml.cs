@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using ModernWpf;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
@@ -16,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using static PvzLauncherRemake.Classes.AppLogger;
+
 
 namespace PvzLauncherRemake.Pages
 {
@@ -105,10 +104,10 @@ namespace PvzLauncherRemake.Pages
         {
             try
             {
-                logger.Info($"[设置] 开始初始化");
 
 
-                logger.Info($"[设置] 当前配置文件: {JsonConvert.SerializeObject(AppGlobals.Config)}");
+
+
 
                 isInitialized = false;
 
@@ -232,11 +231,11 @@ namespace PvzLauncherRemake.Pages
                 switch (AppGlobals.Config.Settings.GameConfig.ThreeDMode)
                 {
                     case "Default":
-                        comboBox_Game_3DMode.SelectedIndex = 0;break;
+                        comboBox_Game_3DMode.SelectedIndex = 0; break;
                     case "On":
-                        comboBox_Game_3DMode.SelectedIndex = 1;break;
+                        comboBox_Game_3DMode.SelectedIndex = 1; break;
                     case "Off":
-                        comboBox_Game_3DMode.SelectedIndex = 2;break;
+                        comboBox_Game_3DMode.SelectedIndex = 2; break;
                 }
                 //## 外观
                 //### 窗口标题
@@ -257,12 +256,12 @@ namespace PvzLauncherRemake.Pages
 
 
 
-                logger.Info($"[设置] 设置项应用完毕");
+
 
                 await StartAnimation();
 
                 isInitialized = true;
-                logger.Info($"[设置] 完成初始化");
+
             }
             catch (Exception ex)
             {
