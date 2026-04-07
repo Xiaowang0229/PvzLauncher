@@ -29,8 +29,6 @@ namespace PvzLauncherRemake.Classes
             public static List<JsonTrainerInfo.Index> TrainerList = new List<JsonTrainerInfo.Index>();//修改器
 
             public static JsonDownloadIndex.Index? DownloadIndex = null;//下载索引
-            public static JsonEchoCave.Index? EchoCaveIndex = null;//回声洞索引
-            public static JsonHelpIndex.Index? HelpIndex = null;//帮助中心索引
         }
         
         //字符串
@@ -39,9 +37,7 @@ namespace PvzLauncherRemake.Classes
             public static readonly string ServiceRootUrl = "https://gitee.com/huamouren110/PvzLauncher.Service/raw/main";//服务根Url
             public static readonly string DownloadIndexUrl = $"{ServiceRootUrl}/game-library/index.json";//下载索引
             public static readonly string UpdateIndexUrl = $"{ServiceRootUrl}/update/latest.json";//更新索引
-            public static readonly string EchoCaveIndexUrl = $"{ServiceRootUrl}/echo-cave/index.json";//回声洞索引
             public static readonly string NoticeIndexUrl = $"{ServiceRootUrl}/notice/index.json";//公告索引
-            public static readonly string HelpIndexUrl = $"{ServiceRootUrl}/help/index.json";//帮助中心索引
         }
         
         //启动参数配置
@@ -52,7 +48,6 @@ namespace PvzLauncherRemake.Classes
 
             public static bool isCIBuild = false;//是否CI构建
             public static bool isDebugBuild = false;//是调试版构建
-            public static bool isLongTimeSupport = false;//是否LTS版本
         }
     }
 }
