@@ -5,6 +5,7 @@ using PvzLauncherRemake.Classes.JsonConfigs;
 using PvzLauncherRemake.Utils.Configuration;
 using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
+using System.Diagnostics;
 using System.IO;
 
 
@@ -23,7 +24,7 @@ namespace PvzLauncherRemake.Utils.Services
         /// </summary>
         /// <param name="taskInfo"></param>
         /// <returns></returns>
-        public static void AddTask(DownloadTaskInfo taskInfo)
+        public static void AddTask(DownloadTaskInfo taskInfo, Action? completeCallback = null)
         {
             foreach (var task in DownloadTaskList)
             {
@@ -58,9 +59,7 @@ namespace PvzLauncherRemake.Utils.Services
                         return;
                     }
 
-
-
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
 
                     if (!Directory.Exists(taskInfo.SavePath))
                         Directory.CreateDirectory(taskInfo.SavePath);
@@ -71,50 +70,8 @@ namespace PvzLauncherRemake.Utils.Services
                         CompressExtracter.ExtractWithProgress(originDownloader!.SavePath, taskInfo.SavePath, ((p) =>
                         {
                             taskInfo.ExtractProgress = p;
-
                         }));
                     });
-
-
-                    string configName = Path.GetFileName(taskInfo.SavePath);
-                    if (taskInfo.GameInfo != null)
-                    {
-                        var cfg = new JsonGameInfo.Index
-                        {
-                            GameInfo = new JsonGameInfo.GameInfo
-                            {
-                                ExecuteName = taskInfo.GameInfo.ExecuteName,
-                                Version = taskInfo.GameInfo.Version,
-                                Name = configName,
-                                Icon = taskInfo.GameInfo.Icon
-                            },
-                            Record = new JsonGameInfo.Record
-                            {
-                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                PlayCount = 0,
-                                PlayTime = 0
-                            }
-                        };
-                        Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
-                        AppGlobals.Config.CurrentGame = configName;
-                    }
-                    else
-                    {
-                        var cfg = new JsonTrainerInfo.Index
-                        {
-                            ExecuteName = taskInfo.TrainerInfo!.ExecuteName,
-                            Version = taskInfo.TrainerInfo.Version,
-                            Name = configName,
-                            Icon = taskInfo.TrainerInfo.Icon
-                        };
-                        Json.WriteJson(Path.Combine(taskInfo.SavePath, ".pvzl.json"), cfg);
-                        AppGlobals.Config.CurrentTrainer = configName;
-                    }
-
-                    ConfigManager.SaveConfig();
-                    //刷新列表
-                    await GameManager.LoadGameListAsync();
-                    await GameManager.LoadTrainerListAsync();
 
                     SnackbarManager.Show(new SnackbarContent
                     {
@@ -124,6 +81,7 @@ namespace PvzLauncherRemake.Utils.Services
                     });
                     DownloadTaskList.Remove(taskInfo);
                     TaskRemoved?.Invoke(taskInfo);
+                    completeCallback?.Invoke();
                 }),
                 Progress = ((p, s) =>
                 {
@@ -205,8 +163,7 @@ namespace PvzLauncherRemake.Utils.Services
     public class DownloadTaskInfo
     {
         public Downloader? Downloader { get; set; } = null;//下载器
-        public JsonDownloadIndex.GameInfo? GameInfo { get; set; }//游戏信息
-        public JsonDownloadIndex.TrainerInfo? TrainerInfo { get; set; }//修改器信息
+        public JsonDownloadIndex.GameInfo Info { get; set; }//游戏信息
         public string? TaskName { get; set; } = "未命名下载任务";//任务名
         public GameIcons TaskIcon { get; set; } = GameIcons.Unknown;//任务图标
         public string SavePath { get; set; }//保存路径
