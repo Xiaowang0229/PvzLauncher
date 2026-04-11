@@ -3,6 +3,7 @@ using HuaZi.Library.Json;
 using Newtonsoft.Json;
 using PvzLauncherRemake.Classes;
 using PvzLauncherRemake.Classes.JsonConfigs;
+using PvzLauncherRemake.Controls.Icons;
 using PvzLauncherRemake.Utils.Services;
 using PvzLauncherRemake.Utils.UI;
 using System.IO;
@@ -102,7 +103,7 @@ namespace PvzLauncherRemake.Pages
                             SavePath = savePath
                         },
                         TaskName = $"[DEV] 下载 \"{selected.OriginalFileName}\"",
-                        TaskIcon = GameIconConverter.ParseGameIconToUserControl(GameIcons.Unknown)
+                        TaskIcon = new IconFile()
                     });
 
                     SnackbarManager.Show(new SnackbarContent
