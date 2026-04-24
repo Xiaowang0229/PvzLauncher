@@ -28,15 +28,10 @@
 
 安装评论区提供的运行时即可
 
-#### Q9.能支持手机吗
-
-安卓版马上出，苹果暂无计划支持
-
-#### Q10.An exception occurred when starting the main program.
-System.ComponentModel.Win32Exception (1223): An error occurredtrying to start process 'PvzLauncherRemake.exe' withworking directory'PvzLauncher\bin'.操作已被用户取消。
- 
-安全警告和遮罩屏幕冲突了，解除文件锁定即可
-
-#### Q11.支持32位系统吗
+#### Q9.支持32位系统吗
 
 支持
+
+#### Q10.The process cannot access the file 'AppData\Local\Temp\PVZLAUNCHER.UPDATE.CACHE' because it is being used by another process.
+
+更新包被杀毒软件占用，与此程序无关
