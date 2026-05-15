@@ -31,7 +31,7 @@ namespace PvzLauncherRemake.Utils.Services
 
         public static async Task CheckUpdate(Action<double, double> progressCallback = null!, bool isStartUp = false)
         {
-            
+
 
             if (AppGlobals.Config.Settings.LauncherConfig.OfflineMode)
             {
@@ -137,9 +137,21 @@ namespace PvzLauncherRemake.Utils.Services
                     Title = $"发现可用更新 - {LatestVersion}",
                     Content = docViewer,
                     PrimaryButtonText = "立即更新",
+                    SecondaryButtonText = "前往Release页面",
                     CloseButtonText = "取消更新",
                     DefaultButton = ContentDialogButton.Primary
-                }, (() => { isUpdate = true; }));
+                }, (() =>
+                {
+                    isUpdate = true;
+                }), (() =>
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = $"https://github.com/PvzLauncher/PvzLauncher/releases/tag/{LatestVersion}",
+                        UseShellExecute = true
+                    });
+                }
+                ));
             }
             else
             {
