@@ -130,10 +130,10 @@ namespace PvzLauncherRemake.Utils.Services
 
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
-                var radioButtonTrainer = new RadioButton { Content = "修改器", IsChecked = false, IsEnabled = false };
-                var checkBoxVirtual = new CheckBox { Content = "虚拟导入(仅游戏)" };
+                var radioButtonTrainer = new RadioButton { Content = "修改器"};
+                var checkBoxVirtual = new CheckBox { Content = "虚拟导入(仅游戏)", IsChecked = false, IsEnabled = false };
                 radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
-                radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; });
+                radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; checkBoxVirtual.IsChecked = false; });
                 checkBoxVirtual.Click += ((s, e) => isVirtual = checkBoxVirtual.IsChecked ?? false);
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
@@ -244,6 +244,39 @@ namespace PvzLauncherRemake.Utils.Services
                         return;
 
                     await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+
+
+                    if (isTrainer == true)
+                    {
+                        var config = new JsonTrainerInfo.Index
+                        {
+                            ExecuteName = exeFile,
+                            Icon = "origin",
+                            Name = Path.GetFileName(savePath),
+                            Version = "1.0.0.0"
+                        };
+                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                    }
+                    else
+                    {
+                        var config = new JsonGameInfo.Index
+                        {
+                            GameInfo = new JsonGameInfo.GameInfo
+                            {
+                                ExecuteName = exeFile,
+                                Icon = "origin",
+                                Name = Path.GetFileName(savePath),
+                                Version = "1.0.0.0",
+                            },
+                            Record = new JsonGameInfo.Record
+                            {
+                                FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                PlayCount = 0,
+                                PlayTime = 0
+                            }
+                        };
+                        Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
+                    }
                 }
                 else
                 {
@@ -277,41 +310,12 @@ namespace PvzLauncherRemake.Utils.Services
                             PlayTime = 0
                         }
                     };
+                    if (!Directory.Exists(savePath))
+                        Directory.CreateDirectory(savePath);
                     Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
                 }
 
-
-                if (isTrainer == true)
-                {
-                    var config = new JsonTrainerInfo.Index
-                    {
-                        ExecuteName = exeFile,
-                        Icon = "origin",
-                        Name = Path.GetFileName(savePath),
-                        Version = "1.0.0.0"
-                    };
-                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
-                }
-                else
-                {
-                    var config = new JsonGameInfo.Index
-                    {
-                        GameInfo = new JsonGameInfo.GameInfo
-                        {
-                            ExecuteName = exeFile,
-                            Icon = "origin",
-                            Name = Path.GetFileName(savePath),
-                            Version = "1.0.0.0",
-                        },
-                        Record = new JsonGameInfo.Record
-                        {
-                            FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                            PlayCount = 0,
-                            PlayTime = 0
-                        }
-                    };
-                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), config);
-                }
+                
 
                 SnackbarManager.Show(new SnackbarContent
                 {
