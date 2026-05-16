@@ -118,6 +118,7 @@ namespace PvzLauncherRemake.Utils.Services
             try
             {
                 bool? isTrainer = null;
+                bool isVirtual = false;
 
                 //选择位置
                 var openFolderDialog = new OpenFolderDialog
@@ -129,15 +130,17 @@ namespace PvzLauncherRemake.Utils.Services
 
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
-                var radioButtonTrainer = new RadioButton { Content = "修改器" };
-                radioButtonGame.Click += ((s, e) => isTrainer = false);
-                radioButtonTrainer.Click += ((s, e) => isTrainer = true);
+                var radioButtonTrainer = new RadioButton { Content = "修改器", IsChecked = false, IsEnabled = false };
+                var checkBoxVirtual = new CheckBox { Content = "虚拟导入(仅游戏)" };
+                radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
+                radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; });
+                checkBoxVirtual.Click += ((s, e) => isVirtual = checkBoxVirtual.IsChecked ?? false);
                 await DialogManager.ShowDialogAsync(new ContentDialog
                 {
                     Title = "请选择类型",
                     Content = new StackPanel
                     {
-                        Children = { radioButtonGame, radioButtonTrainer }
+                        Children = { radioButtonGame, radioButtonTrainer, checkBoxVirtual }
                     },
                     PrimaryButtonText = "确定",
                     CloseButtonText = "取消导入",
@@ -152,6 +155,7 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //特殊文件夹判断
+                if (!isVirtual) 
                 if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
                     openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
                     openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
@@ -224,21 +228,57 @@ namespace PvzLauncherRemake.Utils.Services
                 }
 
                 //导入确认
-                bool isImportConfirm = false;
-                await DialogManager.ShowDialogAsync(new ContentDialog
+                if (!isVirtual)
                 {
-                    Title = "导入确认",
-                    Content = "此操作会将您选择的文件夹复制到启动器游戏库内，如果游戏过可能会需要很长时间，且此操作无法取消！\n\n确定开始导入？",
-                    PrimaryButtonText = "确定",
-                    CloseButtonText = "取消",
-                    DefaultButton = ContentDialogButton.Primary
-                }, (() => isImportConfirm = true));
+                    bool isImportConfirm = false;
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "导入确认",
+                        Content = "此操作会将您选择的文件夹复制到启动器游戏库内，如果游戏过可能会需要很长时间，且此操作无法取消！\n\n确定开始导入？",
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() => isImportConfirm = true));
 
-                if (!isImportConfirm)
-                    return;
+                    if (!isImportConfirm)
+                        return;
 
-                await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+                    await DirectoryManager.CopyDirectoryAsync(openFolderDialog.FolderName, savePath, ((p) => progressCallback?.Invoke(p)));
+                }
+                else
+                {
+                    bool isImportConfirm = false;
+                    await DialogManager.ShowDialogAsync(new ContentDialog
+                    {
+                        Title = "虚拟导入确认",
+                        Content = "虚拟导入提供了一个新的导入方式，只在启动器目录创建一个引用链接。达到不复制源游戏文件即可启动游戏",
+                        PrimaryButtonText = "确定",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary
+                    }, (() => isImportConfirm = true));
 
+                    if (!isImportConfirm)
+                        return;
+
+                    var virtualConfig = new JsonVirtualGameInfo.Index
+                    {
+                        GameInfo = new JsonVirtualGameInfo.GameInfo
+                        {
+                            ExecuteName = exeFile,
+                            Icon = "origin",
+                            Name = Path.GetFileName(savePath),
+                            Version = "1.0.0.0",
+                            GamePath = openFolderDialog.FolderName
+                        },
+                        Record = new JsonVirtualGameInfo.Record
+                        {
+                            FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                            PlayCount = 0,
+                            PlayTime = 0
+                        }
+                    };
+                    Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
+                }
 
 
                 if (isTrainer == true)
