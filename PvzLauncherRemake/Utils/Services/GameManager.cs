@@ -9,6 +9,7 @@ using PvzLauncherRemake.Utils.FileSystem;
 using PvzLauncherRemake.Utils.UI;
 using PvzLauncherRemake.Windows;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -130,7 +131,7 @@ namespace PvzLauncherRemake.Utils.Services
 
                 //选择类型
                 var radioButtonGame = new RadioButton { Content = "游戏" };
-                var radioButtonTrainer = new RadioButton { Content = "修改器"};
+                var radioButtonTrainer = new RadioButton { Content = "修改器" };
                 var checkBoxVirtual = new CheckBox { Content = "虚拟导入(仅游戏)", IsChecked = false, IsEnabled = false };
                 radioButtonGame.Click += ((s, e) => { isTrainer = false; checkBoxVirtual.IsEnabled = true; });
                 radioButtonTrainer.Click += ((s, e) => { isTrainer = true; isVirtual = false; checkBoxVirtual.IsEnabled = false; checkBoxVirtual.IsChecked = false; });
@@ -155,20 +156,20 @@ namespace PvzLauncherRemake.Utils.Services
 
 
                 //特殊文件夹判断
-                if (!isVirtual) 
-                if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
-                    openFolderDialog.FolderName == AppGlobals.Directories.TrainerDirectory)
-                {
-                    SnackbarManager.Show(new SnackbarContent
+                if (!isVirtual)
+                    if (openFolderDialog.FolderName == AppGlobals.Directories.ExecuteDirectory ||
+                        openFolderDialog.FolderName == AppGlobals.Directories.RootDirectory ||
+                        openFolderDialog.FolderName == AppGlobals.Directories.GameDirectory ||
+                        openFolderDialog.FolderName == AppGlobals.Directories.TrainerDirectory)
                     {
-                        Title = "导入失败",
-                        Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
-                        Type = SnackbarType.Error
-                    });
-                    return;
-                }
+                        SnackbarManager.Show(new SnackbarContent
+                        {
+                            Title = "导入失败",
+                            Content = $"\"{openFolderDialog.FolderName}\" 是一个非法路径，请重新导入！",
+                            Type = SnackbarType.Error
+                        });
+                        return;
+                    }
 
 
                 //解决重名
@@ -293,9 +294,9 @@ namespace PvzLauncherRemake.Utils.Services
                     if (!isImportConfirm)
                         return;
 
-                    var virtualConfig = new JsonVirtualGameInfo.Index
+                    var virtualConfig = new JsonGameInfo.Index
                     {
-                        GameInfo = new JsonVirtualGameInfo.GameInfo
+                        GameInfo = new JsonGameInfo.GameInfo
                         {
                             ExecuteName = exeFile,
                             Icon = "origin",
@@ -303,7 +304,7 @@ namespace PvzLauncherRemake.Utils.Services
                             Version = "1.0.0.0",
                             GamePath = openFolderDialog.FolderName
                         },
-                        Record = new JsonVirtualGameInfo.Record
+                        Record = new JsonGameInfo.Record
                         {
                             FirstPlay = DateTimeOffset.Now.ToUnixTimeSeconds(),
                             PlayCount = 0,
@@ -315,7 +316,7 @@ namespace PvzLauncherRemake.Utils.Services
                     Json.WriteJson(Path.Combine(savePath, ".pvzl.json"), virtualConfig);
                 }
 
-                
+
 
                 SnackbarManager.Show(new SnackbarContent
                 {
@@ -407,7 +408,7 @@ namespace PvzLauncherRemake.Utils.Services
                     await LoadTrainerListAsync();
                 }));
 
-                
+
             }
             catch (Exception ex)
             {
@@ -426,7 +427,11 @@ namespace PvzLauncherRemake.Utils.Services
         public static async void LaunchGame(JsonGameInfo.Index gameInfo, Action? exitCallback = null)
         {
             //游戏exe路径
-            string gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
+            string gameExePath;
+            if (gameInfo.GameInfo.GamePath != null) 
+                gameExePath = Path.Combine(gameInfo.GameInfo.GamePath, gameInfo.GameInfo.ExecuteName);
+            else
+                gameExePath = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name, gameInfo.GameInfo.ExecuteName);
 
             //定义Process
             GameProcess = new Process
@@ -435,7 +440,7 @@ namespace PvzLauncherRemake.Utils.Services
                 {
                     FileName = gameExePath,
                     UseShellExecute = true,
-                    WorkingDirectory = System.IO.Path.Combine(AppGlobals.Directories.GameDirectory, gameInfo.GameInfo.Name)
+                    WorkingDirectory = Path.GetDirectoryName(gameExePath)
                 }
             };
 
