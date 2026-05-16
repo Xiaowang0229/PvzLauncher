@@ -44,12 +44,9 @@ namespace PvzLauncherRemake.Classes.JsonConfigs
         }
     }
 
-    public class JsonVirtualGameInfo : JsonGameInfo
+    public partial class VirtualGameInfo : JsonGameInfo.GameInfo
     {
-        public new partial class GameInfo : JsonGameInfo.GameInfo
-        {
-            [JsonProperty("game_path")]
-            public string GamePath { get; set; }
-        }
+        [JsonProperty("game_path")]
+        public string GamePath { get; set; }
     }
 }
